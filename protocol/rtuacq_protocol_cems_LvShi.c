@@ -78,7 +78,7 @@ int protocol_CEMS_LvShi(struct acquisition_data *acq_data)
 	devaddr=modbusarg->devaddr&0xffff;
 	cmd = 0x03;
 	regpos = 0x00;
-	regcnt = 0x14;
+	regcnt = 0x0A;
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
@@ -94,22 +94,13 @@ int protocol_CEMS_LvShi(struct acquisition_data *acq_data)
 	if(p!=NULL)
 	{
 		SO2 = getFloatValue(p, 3, dataType);
-		SO2_orig= getFloatValue(p, 15, dataType);
 		
-		NO= getFloatValue(p, 7, dataType);
-		NO_orig= getFloatValue(p, 19, dataType);
+		NO= getFloatValue(p, 11, dataType);
 		
-		O2 = getFloatValue(p, 11, dataType);
-		O2_orig= getFloatValue(p, 23, dataType);
+		O2 = getFloatValue(p, 19, dataType);
 
 		nox=NO_to_NOx(NO);
 
-		CO = getFloatValue(p, 27, dataType);
-		CO_orig= getFloatValue(p, 35, dataType);
-
-		CO2 = getFloatValue(p, 31, dataType);
-		CO2_orig= getFloatValue(p, 39, dataType);
-		
 		status=0;
 	}
 	else
