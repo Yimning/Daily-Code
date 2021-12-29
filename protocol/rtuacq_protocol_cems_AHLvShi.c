@@ -95,37 +95,43 @@ int protocol_CEMS_AHLvShi(struct acquisition_data *acq_data)
 	if(p!=NULL)
 	{
 		SO2 = getFloatValue(p, 3, dataType);
+		SO2_orig= getFloatValue(p, 7, dataType);
 		
 		NO= getFloatValue(p, 11, dataType);
+		NO_orig= getFloatValue(p, 15, dataType);
 		
 		O2 = getFloatValue(p, 19, dataType);
+		O2_orig= getFloatValue(p, 23, dataType);
 
 		nox=NO_to_NOx(NO);
-
+		
 		status=0;
 	}
 	else
 	{
 		SO2 = 0;
+		O2_orig  = 0;
 		NO = 0;
+		O2_orig  = 0;
 		O2 = 0;
+		O2_orig  = 0;
 		nox =0;
 		status=1;
 	}
 	acqdata_set_value(acq_data,"a21026a",UNIT_MG_M3,SO2,&arg_n);
-	acqdata_set_value(acq_data,"a21026",UNIT_MG_M3,SO2,SO2,&arg_n); 
+	acqdata_set_value_orig(acq_data,"a21026",UNIT_MG_M3,SO2,SO2_orig,&arg_n); 
 	acqdata_set_value(acq_data,"a21026z",UNIT_MG_M3,0,&arg_n);
 
 	acqdata_set_value(acq_data,"a21003a",UNIT_MG_M3,NO,&arg_n);
-	acqdata_set_value(acq_data,"a21003",UNIT_MG_M3,NO,NO,&arg_n);
+	acqdata_set_value_orig(acq_data,"a21003",UNIT_MG_M3,NO,NO_orig,&arg_n);
 	acqdata_set_value(acq_data,"a21003z",UNIT_MG_M3,0,&arg_n);
 	
 	acqdata_set_value(acq_data,"a21002a",UNIT_MG_M3,nox,&arg_n);
-	acqdata_set_value(acq_data,"a21002",UNIT_MG_M3,nox,nox,&arg_n);
+	acqdata_set_value_orig(acq_data,"a21002",UNIT_MG_M3,nox,nox,&arg_n);
 	acqdata_set_value(acq_data,"a21002z",UNIT_MG_M3,0,&arg_n);
 
 	acqdata_set_value(acq_data,"a19001a",UNIT_MG_M3,O2,&arg_n);
-	acqdata_set_value(acq_data,"a19001",UNIT_MG_M3,O2,O2,&arg_n);
+	acqdata_set_value_orig(acq_data,"a19001",UNIT_MG_M3,O2,O2_orig,&arg_n);
 
 	if(status == 0)
 	{
@@ -405,9 +411,6 @@ int protocol_CEMS_AHLvShi_SO2_info(struct acquisition_data *acq_data)
 		valf= getFloatValue(p, 51, dataType);
 		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
 
-		//valf= getFloatValue(p, 55, dataType);
-		//acqdata_set_value_flag(acq_data,"i13012",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
 		status=0;
 	}
 	else 
@@ -482,7 +485,7 @@ int protocol_CEMS_AHLvShi_NO_info(struct acquisition_data *acq_data)
 
 	sleep(1);
 	cmd = 0x03;
-	regpos = 0xE2;
+	regpos = 0xE4;
 	regcnt = 0x1A;
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
@@ -546,9 +549,6 @@ int protocol_CEMS_AHLvShi_NO_info(struct acquisition_data *acq_data)
 
 		valf= getFloatValue(p, 51, dataType);
 		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
-		
-		//valf= getFloatValue(p, 55, dataType);
-		//acqdata_set_value_flag(acq_data,"i13012",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		status=0;
 	}
@@ -622,7 +622,7 @@ int protocol_CEMS_AHLvShi_O2_info(struct acquisition_data *acq_data)
 
 	sleep(1);
 	cmd = 0x03;
-	regpos = 0xFC;
+	regpos = 0x100;
 	regcnt = 0x1A;
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
@@ -687,8 +687,6 @@ int protocol_CEMS_AHLvShi_O2_info(struct acquisition_data *acq_data)
 		valf= getFloatValue(p, 51, dataType);
 		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
 
-		//valf= getFloatValue(p, 55, dataType);
-		//acqdata_set_value_flag(acq_data,"i13012",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		status=0;
 	}
