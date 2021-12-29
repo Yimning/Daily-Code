@@ -870,7 +870,7 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info(struct acquisition_data *acq_da
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong_MODEL4000 HCL INFO RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
 	if(p!=NULL)
-	{  
+	{    
 		valf = getFloatValue(p, 3 , dataType);
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 	
@@ -900,7 +900,7 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info(struct acquisition_data *acq_da
  		year=BCD(val);
 		mon=BCD(p[33]);
 		day=BCD(p[34]);
-		hour=BCD(p[35]);
+		hour=BCD(p[35]); 
 		min=BCD(p[36]);
 		sec=BCD(p[38]);
 		t3=getTimeValue(year,mon, day,hour, min, sec);
