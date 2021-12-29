@@ -21,5 +21,12 @@ echo "\n"
 echo "commit message is $message" 
 
 
+git commit -m "$message"
+
+git add .
+
+git push origin master
+
+
 
 
