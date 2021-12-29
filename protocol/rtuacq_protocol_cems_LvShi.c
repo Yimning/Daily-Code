@@ -24,7 +24,7 @@
 Author:Yimning
 Email:1148967988@qq.com
 Create Time:2021.08.16 Mon.
-Description:protocol_CEMS_WuXiChenChuang
+Description:protocol_CEMS_LvShi
 TX:01 03 00 00 00 14 C5 C8
 RX:01 03 18
 41 20 00 00
@@ -46,7 +46,7 @@ DataType and Analysis:
 	(FLOAT_ABCD) 44 B4 08 00   = 1440.25
 */
 
-int protocol_CEMS_WuXiChenChuang(struct acquisition_data *acq_data)
+int protocol_CEMS_LvShi(struct acquisition_data *acq_data)
 {
 	int status=0;
 	float *pf;
@@ -82,14 +82,14 @@ int protocol_CEMS_WuXiChenChuang(struct acquisition_data *acq_data)
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang CEMS SEND:",com_tbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"LvShi CEMS SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang CEMS protocol,CEMS : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang CEMS data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang CEMS RECV:",com_rbuf,size);
+	SYSLOG_DBG("LvShi CEMS protocol,CEMS : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("LvShi CEMS data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"LvShi CEMS RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
@@ -146,14 +146,14 @@ int protocol_CEMS_WuXiChenChuang(struct acquisition_data *acq_data)
 	sleep(1);
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,0x64,0x03);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang CEMS Flag SEND:",com_tbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"LvShi CEMS Flag SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang CEMS Flag protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang CEMS Flag data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang CEMS Flag RECV:",com_rbuf,size);
+	SYSLOG_DBG("LvShi CEMS Flag protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("LvShi CEMS Flag data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"LvShi CEMS Flag RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, 0x03);
 	if(p!=NULL)
 	{
@@ -189,7 +189,7 @@ int protocol_CEMS_WuXiChenChuang(struct acquisition_data *acq_data)
 }
 
 
-int protocol_CEMS_WuXiChenChuang_STATUS_info(struct acquisition_data *acq_data)
+int protocol_CEMS_LvShi_STATUS_info(struct acquisition_data *acq_data)
 {
 	int status=0;
 	float *pf;
@@ -221,7 +221,7 @@ int protocol_CEMS_WuXiChenChuang_STATUS_info(struct acquisition_data *acq_data)
    	struct modbus_arg *modbusarg;
 
 	if(!acq_data) return -1;
-	SYSLOG_DBG("protocol_CEMS_WuXiChenChuang_STATUS_info\n");
+	SYSLOG_DBG("protocol_CEMS_LvShi_STATUS_info\n");
 	
 	acq_ctrl=ACQ_CTRL(acq_data);
 	modbusarg=&acq_ctrl->modbusarg_running;
@@ -247,14 +247,14 @@ int protocol_CEMS_WuXiChenChuang_STATUS_info(struct acquisition_data *acq_data)
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang STATUS INFO SEND:",com_tbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"LvShi STATUS INFO SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang STATUS protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang STATUS data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang STATUS INFO RECV:",com_rbuf,size);
+	SYSLOG_DBG("LvShi STATUS protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("LvShi STATUS data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"LvShi STATUS INFO RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
@@ -346,7 +346,7 @@ DataType and Analysis:
 	(FLOAT_ABCD) 44 B4 08 00   = 1440.25
 */
 
-int protocol_CEMS_WuXiChenChuang_SO2_info(struct acquisition_data *acq_data)
+int protocol_CEMS_LvShi_SO2_info(struct acquisition_data *acq_data)
 {
 	int status=0;
 	float *pf;
@@ -378,7 +378,7 @@ int protocol_CEMS_WuXiChenChuang_SO2_info(struct acquisition_data *acq_data)
    	struct modbus_arg *modbusarg;
 
 	if(!acq_data) return -1;
-	SYSLOG_DBG("protocol_CEMS_WuXiChenChuang_SO2_info\n");
+	SYSLOG_DBG("protocol_CEMS_LvShi_SO2_info\n");
 	
 	acq_ctrl=ACQ_CTRL(acq_data);
 	modbusarg=&acq_ctrl->modbusarg_running;
@@ -398,14 +398,14 @@ int protocol_CEMS_WuXiChenChuang_SO2_info(struct acquisition_data *acq_data)
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang SO2 INFO SEND:",com_tbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"LvShi SO2 INFO SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang SO2 protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang SO2 data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang SO2 INFO RECV:",com_rbuf,size);
+	SYSLOG_DBG("LvShi SO2 protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("LvShi SO2 data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"LvShi SO2 INFO RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
@@ -488,7 +488,7 @@ DataType and Analysis:
 */
 
 
-int protocol_CEMS_WuXiChenChuang_NO_info(struct acquisition_data *acq_data)
+int protocol_CEMS_LvShi_NO_info(struct acquisition_data *acq_data)
 {
 	int status=0;
 	float *pf;
@@ -520,7 +520,7 @@ int protocol_CEMS_WuXiChenChuang_NO_info(struct acquisition_data *acq_data)
    	struct modbus_arg *modbusarg;
 
 	if(!acq_data) return -1;
-	SYSLOG_DBG("protocol_CEMS_WuXiChenChuang_NO_info\n");
+	SYSLOG_DBG("protocol_CEMS_LvShi_NO_info\n");
 	
 	acq_ctrl=ACQ_CTRL(acq_data);
 	modbusarg=&acq_ctrl->modbusarg_running;
@@ -540,14 +540,14 @@ int protocol_CEMS_WuXiChenChuang_NO_info(struct acquisition_data *acq_data)
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang NO INFO SEND:",com_tbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"LvShi NO INFO SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang NO protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang NO data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang NO INFO RECV:",com_rbuf,size);
+	SYSLOG_DBG("LvShi NO protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("LvShi NO data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"LvShi NO INFO RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
@@ -628,7 +628,7 @@ DataType and Analysis:
 	(INT_AB) 01 = 1
 	(FLOAT_ABCD) 42 c8 00 00  = 100
 */
-int protocol_CEMS_WuXiChenChuang_O2_info(struct acquisition_data *acq_data)
+int protocol_CEMS_LvShi_O2_info(struct acquisition_data *acq_data)
 {
 	int status=0;
 	float *pf;
@@ -660,7 +660,7 @@ int protocol_CEMS_WuXiChenChuang_O2_info(struct acquisition_data *acq_data)
    	struct modbus_arg *modbusarg;
 
 	if(!acq_data) return -1;
-	SYSLOG_DBG("protocol_CEMS_WuXiChenChuang_O2_info\n");
+	SYSLOG_DBG("protocol_CEMS_LvShi_O2_info\n");
 	
 	acq_ctrl=ACQ_CTRL(acq_data);
 	modbusarg=&acq_ctrl->modbusarg_running;
@@ -680,14 +680,14 @@ int protocol_CEMS_WuXiChenChuang_O2_info(struct acquisition_data *acq_data)
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang O2 INFO SEND:",com_tbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"LvShi O2 INFO SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang O2 protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang O2 data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang O2 INFO RECV:",com_rbuf,size);
+	SYSLOG_DBG("LvShi O2 protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("LvShi O2 data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"LvShi O2 INFO RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
@@ -757,282 +757,3 @@ int protocol_CEMS_WuXiChenChuang_O2_info(struct acquisition_data *acq_data)
 	return arg_n;
 
 }
-
-
-#if 0
-
-
-/*
-RX:01 03 01 16 00 1A 45 FF
-TX:01 03 34 43 48 00 00 20 20 10 16 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 20 20 10 16 09 00 00 00 43 48 00 00 43 48 00 00 3F 80 00 00 00 00 00 00 B4 0E
-DataType and Analysis:
-	(INT_AB) 01 = 1
-	(FLOAT_ABCD) 42 c8 00 00  = 100
-*/
-int protocol_CEMS_WuXiChenChuang_CO_info(struct acquisition_data *acq_data)
-{
-	int status=0;
-	float *pf;
-	union uf  f;
-	char com_rbuf[2048]={0}; 
-	char com_tbuf[8]={0};
-	int size=0;
-	int i=0;
-	int ret=0;
-	int arg_n=0;
-	int devaddr=0;
-	int cmd = 0,regpos = 0,regcnt = 0;
-	char *p = NULL;
-	int val=0;
-	float valf = 0;
-
-	struct tm timer;
-	time_t t1,t2,t3;
-	MODBUS_DATA_TYPE dataType;
-
-	int year=0;
-	int mon=0;
-	int day=0;
-	int hour=0;
-	int min=0;
-	int sec=0;
-	
-	struct acquisition_ctrl *acq_ctrl;
-   	struct modbus_arg *modbusarg;
-
-	if(!acq_data) return -1;
-	SYSLOG_DBG("protocol_CEMS_WuXiChenChuang_CO_info\n");
-	
-	acq_ctrl=ACQ_CTRL(acq_data);
-	modbusarg=&acq_ctrl->modbusarg_running;
-	dataType = FLOAT_ABCD;
-	devaddr=modbusarg->devaddr&0xffff;
-
-	t1=0;//1577808000; // 2020-01-01 00:00:00
-	acqdata_set_value_flag(acq_data,"a21005",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-	sleep(1);
-	cmd = 0x03;
-	regpos = 0x0116;
-	regcnt = 0x1A;
-	dataType = FLOAT_ABCD ;
-	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang CO INFO SEND:",com_tbuf,size);
-	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
-	sleep(1);
-	memset(com_rbuf,0,sizeof(com_rbuf));
-	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang CO protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang CO data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang CO INFO RECV:",com_rbuf,size);
-	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, regcnt);
-	if(p!=NULL)
-	{
-		valf = getFloatValue(p, 3, dataType);
-		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-	        val = getInt16Value(p, 7, INT_AB);
-		timer.tm_year=BCD(val)-1900;
-		timer.tm_mon=BCD(p[9])-1;
-		timer.tm_mday=BCD(p[10]);
-		timer.tm_hour=BCD(p[11]);
-		timer.tm_min=BCD(p[12]);
-		timer.tm_sec=BCD(p[14]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
-
-		valf = getFloatValue(p, 15, dataType);
-		acqdata_set_value_flag(acq_data,"i13023",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 19, dataType);
-		acqdata_set_value_flag(acq_data,"i13024",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf = getFloatValue(p, 23, dataType);
-		acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 27, dataType);
-		acqdata_set_value_flag(acq_data,"i13025",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
-
-	        val = getInt16Value(p, 31, INT_AB);
-		timer.tm_year=BCD(val)-1900;
-		timer.tm_mon=BCD(p[33])-1;
-		timer.tm_mday=BCD(p[34]);
-		timer.tm_hour=BCD(p[35]);
-		timer.tm_min=BCD(p[36]);
-		timer.tm_sec=BCD(p[38]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
-
-		valf = getFloatValue(p, 39, dataType);
-		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);	
-
-		valf = getFloatValue(p, 43, dataType);
-		acqdata_set_value_flag(acq_data,"i13029",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 47, dataType);
-		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 51, dataType);
-		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
-
-		//valf= getFloatValue(p, 55, dataType);
-		//acqdata_set_value_flag(acq_data,"i13012",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		status=0;
-	}
-	else 
-	{
-		status =1;
-	}
-
-	if(status == 0)
-		acq_data->acq_status = ACQ_OK;
-	else 
-		acq_data->acq_status = ACQ_ERR;
-	return arg_n;
-
-}
-
-
-
-/*
-RX:01 03 01 30 00 1A 45 FF
-TX:01 03 34 43 48 00 00 20 20 10 16 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 20 20 10 16 09 00 00 00 43 48 00 00 43 48 00 00 3F 80 00 00 00 00 00 00 B4 0E
-DataType and Analysis:
-	(INT_AB) 01 = 1
-	(FLOAT_ABCD) 42 c8 00 00  = 100
-*/
-int protocol_CEMS_WuXiChenChuang_CO2_info(struct acquisition_data *acq_data)
-{
-	int status=0;
-	float *pf;
-	union uf  f;
-	char com_rbuf[2048]={0}; 
-	char com_tbuf[8]={0};
-	int size=0;
-	int i=0;
-	int ret=0;
-	int arg_n=0;
-	int devaddr=0;
-	int cmd = 0,regpos = 0,regcnt = 0;
-	char *p = NULL;
-	int val=0;
-	float valf = 0;
-
-	struct tm timer;
-	time_t t1,t2,t3;
-	MODBUS_DATA_TYPE dataType;
-
-	int year=0;
-	int mon=0;
-	int day=0;
-	int hour=0;
-	int min=0;
-	int sec=0;
-	
-	struct acquisition_ctrl *acq_ctrl;
-   	struct modbus_arg *modbusarg;
-
-	if(!acq_data) return -1;
-	SYSLOG_DBG("protocol_CEMS_WuXiChenChuang_CO2_info\n");
-	
-	acq_ctrl=ACQ_CTRL(acq_data);
-	modbusarg=&acq_ctrl->modbusarg_running;
-	dataType = FLOAT_ABCD;
-	devaddr=modbusarg->devaddr&0xffff;
-
-	t1=0;//1577808000; // 2020-01-01 00:00:00
-	acqdata_set_value_flag(acq_data,"a05001",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-	sleep(1);
-	cmd = 0x03;
-	regpos = 0x0130;
-	regcnt = 0x1A;
-	dataType = FLOAT_ABCD ;
-	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"WuXiChenChuang CO2 INFO SEND:",com_tbuf,size);
-	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
-	sleep(1);
-	memset(com_rbuf,0,sizeof(com_rbuf));
-	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("WuXiChenChuang CO2 protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("WuXiChenChuang CO2 data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"WuXiChenChuang CO2 INFO RECV:",com_rbuf,size);
-	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, regcnt);
-	if(p!=NULL)
-	{
-		valf = getFloatValue(p, 3, dataType);
-		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-	        val = getInt16Value(p, 7, INT_AB);
-		timer.tm_year=BCD(val)-1900;
-		timer.tm_mon=BCD(p[9])-1;
-		timer.tm_mday=BCD(p[10]);
-		timer.tm_hour=BCD(p[11]);
-		timer.tm_min=BCD(p[12]);
-		timer.tm_sec=BCD(p[14]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
-
-		valf = getFloatValue(p, 15, dataType);
-		acqdata_set_value_flag(acq_data,"i13023",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 19, dataType);
-		acqdata_set_value_flag(acq_data,"i13024",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf = getFloatValue(p, 23, dataType);
-		acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 27, dataType);
-		acqdata_set_value_flag(acq_data,"i13025",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
-
-	        val = getInt16Value(p, 31, INT_AB);
-		timer.tm_year=BCD(val)-1900;
-		timer.tm_mon=BCD(p[33])-1;
-		timer.tm_mday=BCD(p[34]);
-		timer.tm_hour=BCD(p[35]);
-		timer.tm_min=BCD(p[36]);
-		timer.tm_sec=BCD(p[38]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
-
-		valf = getFloatValue(p, 39, dataType);
-		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);	
-
-		valf = getFloatValue(p, 43, dataType);
-		acqdata_set_value_flag(acq_data,"i13029",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 47, dataType);
-		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		valf= getFloatValue(p, 51, dataType);
-		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
-
-		//valf= getFloatValue(p, 55, dataType);
-		//acqdata_set_value_flag(acq_data,"i13012",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-
-		status=0;
-	}
-	else 
-	{
-		status =1;
-	}
-
-	if(status == 0)
-		acq_data->acq_status = ACQ_OK;
-	else 
-		acq_data->acq_status = ACQ_ERR;
-	return arg_n;
-
-}
-
-
-#endif
