@@ -23,7 +23,7 @@
 /*
 Author:Yimning
 Email:1148967988@qq.com
-Create Time:2021.08.16 Mon.
+Create Time:2021.12.29 Wed.
 Description:protocol_CEMS_AHLvShi
 TX:01 03 00 00 00 14 C5 C8
 RX:01 03 18

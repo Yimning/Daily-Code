@@ -1096,6 +1096,7 @@ int protocol_CEMS_YaoJiBoLi(struct acquisition_data *acq_data);
 int protocol_CEMS_BJHangTianYiLai_HeiBei(struct acquisition_data *acq_data);
 int protocol_PLC_BJHangTianYiLai_HeiBei(struct acquisition_data *acq_data);
 int protocol_CEMS_AHLvShi(struct acquisition_data *acq_data);
+int protocol_TSP_ZhongXing_DM601_Low(struct acquisition_data *acq_data);
 int protocol_CEMS_SaiMoFei_42i_HI_100(struct acquisition_data *acq_data);
 int protocol_CEMS_SaiMoFei_42i_LO_100(struct acquisition_data *acq_data);
 int protocol_CEMS_SaiMoFei_43i_HI_100(struct acquisition_data *acq_data);
@@ -2147,6 +2148,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8176,protocol_CEMS_BJHangTianYiLai_HeiBei},
 	{8177,protocol_PLC_BJHangTianYiLai_HeiBei},
 	{8178,protocol_CEMS_AHLvShi},
+	{8179,protocol_TSP_ZhongXing_DM601_Low},
 	
 	{8200,protocol_PLC_SHBeiFen_SBF1500},
 	{8201,protocol_PLC_SHBeiFen_SBF1500_STATUS},
@@ -2825,7 +2827,7 @@ extern int protocol_CEMS_AHLvShi_STATUS_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_AHLvShi_SO2_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_AHLvShi_NO_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_AHLvShi_O2_info(struct acquisition_data *acq_data);
-
+extern int protocol_TSP_ZhongXing_DM601_Low_info(struct acquisition_data *acq_data);
 
 extern int protocol_TSP_SDXinZe_SDUST100_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_SDXinZe_V2_STATUS_info(struct acquisition_data *acq_data);
@@ -3308,7 +3310,9 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{108178,1,protocol_CEMS_AHLvShi_SO2_info},
 	{108178,2,protocol_CEMS_AHLvShi_NO_info},
 	{108178,3,protocol_CEMS_AHLvShi_O2_info},
-
+	
+	{108179,0,protocol_TSP_ZhongXing_DM601_Low_info},
+	
 	{108201,0,protocol_PLC_SHBeiFen_SBF1500_SO2_INFO},
 	{108201,1,protocol_PLC_SHBeiFen_SBF1500_NO_INFO},
 	{108201,2,protocol_PLC_SHBeiFen_SBF1500_NO2_INFO},
