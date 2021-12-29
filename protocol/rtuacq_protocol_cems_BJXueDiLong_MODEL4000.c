@@ -60,7 +60,7 @@ int protocol_CEMS_BJXueDiLong_MODEL4000(struct acquisition_data *acq_data)
 	char com_tbuf[100]={0};
 	int size=0;
 	float nox=0,so2=0,o2=0,no=0,no2=0,co=0,co2=0;
-	float nox_ori=0,so2_ori=0,o2_ori=0,no_ori=0,no2_ori=0,co_ori=0,co2_ori=0;
+	float nox_ori=0,so2_ori=0,o2_ori=0,no_ori=0,no2_ori=0,co_ori=0,co2_ori=0 ,hcl=0,hcl_ori=0;
 	int ret=0;
 	int arg_n=0;
 	int devaddr=0;
@@ -125,6 +125,18 @@ int protocol_CEMS_BJXueDiLong_MODEL4000(struct acquisition_data *acq_data)
 		f.ch[3]=com_rbuf[23];
 		no2_ori=f.f;
 
+		f.ch[0]=com_rbuf[38];
+		f.ch[1]=com_rbuf[37];
+		f.ch[2]=com_rbuf[36];
+		f.ch[3]=com_rbuf[35];
+		hcl=f.f;
+		
+		f.ch[0]=com_rbuf[42];
+		f.ch[1]=com_rbuf[41];
+		f.ch[2]=com_rbuf[40];
+		f.ch[3]=com_rbuf[39];
+		hcl_ori=f.f;
+
 
 		f.ch[0]=com_rbuf[62];
 		f.ch[1]=com_rbuf[61];
@@ -162,6 +174,8 @@ int protocol_CEMS_BJXueDiLong_MODEL4000(struct acquisition_data *acq_data)
 		no_ori=0;
 		no2=0;
 		no2_ori=0;
+		hcl=0;
+		hcl_ori=0;
 		co=0;
 		co_ori=0;
 		co2=0;
@@ -185,6 +199,10 @@ int protocol_CEMS_BJXueDiLong_MODEL4000(struct acquisition_data *acq_data)
 	acqdata_set_value(acq_data,"a21004a",UNIT_MG_M3,no2,&arg_n);
 	acqdata_set_value_orig(acq_data,"a21004",UNIT_MG_M3,no2,no2_ori,&arg_n);
 	acqdata_set_value(acq_data,"a21004z",UNIT_MG_M3,0,&arg_n);
+
+	acqdata_set_value(acq_data,"a21024a",UNIT_MG_M3,hcl,&arg_n);
+	acqdata_set_value_orig(acq_data,"a21024",UNIT_MG_M3,hcl,hcl_ori,&arg_n);
+	acqdata_set_value(acq_data,"a21024z",UNIT_MG_M3,0,&arg_n);
 
 	acqdata_set_value(acq_data,"a21005a",UNIT_MG_M3,co,&arg_n);
 	acqdata_set_value_orig(acq_data,"a21005",UNIT_MG_M3,co,co_ori,&arg_n);
@@ -357,6 +375,8 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_SO2_info(struct acquisition_data *acq_da
 	cmd=0x03;
 
 	t1=0;//1577808000; // 2020-01-01 00:00:00
+	if(!isPolcodeEnable(modbusarg, "a21026"))
+		return 0;
 	acqdata_set_value_flag(acq_data,"a21026",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
 	memset(com_tbuf,0,sizeof(com_tbuf));
@@ -517,6 +537,8 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_NO_info(struct acquisition_data *acq_dat
 	devaddr=modbusarg->devaddr&0xffff;
 	cmd = 0x03;
 	t1=0;//1577808000; // 2020-01-01 00:00:00
+	if(!isPolcodeEnable(modbusarg, "a21003"))
+		return 0;
 	acqdata_set_value_flag(acq_data,"a21003",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 	status=1;
 	memset(com_tbuf,0,sizeof(com_tbuf));
@@ -676,6 +698,8 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_NO2_info(struct acquisition_data *acq_da
 	devaddr=modbusarg->devaddr&0xffff;
 	cmd = 0x03;
 	t1=0;//1577808000; // 2020-01-01 00:00:00
+	if(!isPolcodeEnable(modbusarg, "a21004"))
+		return 0;
 	acqdata_set_value_flag(acq_data,"a21004",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 	status=1;
 	memset(com_tbuf,0,sizeof(com_tbuf));
@@ -783,6 +807,136 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_NO2_info(struct acquisition_data *acq_da
 Author:Yimning
 Email:1148967988@qq.com
 Create Time:2021.07.12 Mon.
+Description:protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info
+TX:01 03 01 36 00 1A 25 F3
+RX:01 03 34 43 48 00 00 20 21 12 29 07 05 05 00 00 00 00 00 3d dd 63 88 bd e1 47 ae 3d 5d 63 88 
+20 21 12 24 13 54 31 00 43 35 00 00 43 1a f8 52 3f 95 7f fa 00 00 00 00 b1 db
+DataType and Analysis:
+	(Float) 41 20 00 00  = 10.0
+*/
+int protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info(struct acquisition_data *acq_data)
+{
+	int status=0;
+	char com_rbuf[2048]={0}; 
+	char com_tbuf[8]={0};
+	int size=0;
+	int ret=0;
+	int arg_n=0;
+	int devaddr=0;
+	int cmd = 0,regpos = 0,regcnt = 0;
+	char *p = NULL;
+	int val=0;
+	float valf = 0;
+
+	union uf f;
+	int year=0;
+	int mon=0;
+	int day=0;
+	int hour=0;
+	int min=0;
+	int sec=0;
+	struct tm timer;
+	time_t t1,t2,t3;
+	
+	MODBUS_DATA_TYPE dataType;
+	struct acquisition_ctrl *acq_ctrl;
+   	struct modbus_arg *modbusarg;
+
+	if(!acq_data) return -1;
+	SYSLOG_DBG("protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info\n");
+	
+	acq_ctrl=ACQ_CTRL(acq_data);
+	modbusarg=&acq_ctrl->modbusarg_running;
+
+	devaddr=modbusarg->devaddr&0xffff;
+	t1=0;//1577808000; // 2020-01-01 00:00:00
+	if(!isPolcodeEnable(modbusarg, "a21024"))
+		return 0;
+	acqdata_set_value_flag(acq_data,"a21024",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
+	status=1;
+	cmd = 0x03;
+	regpos = 0x136;
+	regcnt = 0x01A;
+	dataType = FLOAT_ABCD ;
+	memset(com_tbuf,0,sizeof(com_tbuf));
+	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong_MODEL4000 HCL INFO SEND:",com_tbuf,size);
+	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
+	sleep(1);
+	memset(com_rbuf,0,sizeof(com_rbuf));
+	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
+	SYSLOG_DBG("BJXueDiLong_MODEL4000 HCL protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("BJXueDiLong_MODEL4000 HCL data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong_MODEL4000 HCL INFO RECV:",com_rbuf,size);
+	p=modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
+	if(p!=NULL)
+	{  
+		valf = getFloatValue(p, 3 , dataType);
+		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
+	
+	        val = getUInt16Value(p, 7, INT_AB);
+ 		year=BCD(val);
+		mon=BCD(p[9]);
+		day=BCD(p[10]);
+		hour=BCD(p[11]);
+		min=BCD(p[12]);
+		sec=BCD(p[14]);
+		t3=getTimeValue(year,mon, day,hour, min, sec);
+		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
+
+		valf = getFloatValue(p, 15 , dataType);
+		acqdata_set_value_flag(acq_data,"i13023",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
+
+		valf = getFloatValue(p, 19 , dataType);
+		acqdata_set_value_flag(acq_data,"i13024",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);	
+
+		valf = getFloatValue(p, 23 , dataType);
+		acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);	
+		
+		valf = getFloatValue(p, 27 , dataType);
+		acqdata_set_value_flag(acq_data,"i13025",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);	
+		
+	        val = getUInt16Value(p, 31, INT_AB);
+ 		year=BCD(val);
+		mon=BCD(p[33]);
+		day=BCD(p[34]);
+		hour=BCD(p[35]);
+		min=BCD(p[36]);
+		sec=BCD(p[38]);
+		t3=getTimeValue(year,mon, day,hour, min, sec);
+		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
+
+
+		valf = getFloatValue(p, 39 , dataType);
+		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
+
+		valf = getFloatValue(p, 43 , dataType);
+		acqdata_set_value_flag(acq_data,"i13029",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+		
+		valf = getFloatValue(p, 47 , dataType);
+		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+
+		valf = getFloatValue(p, 51 , dataType);
+		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
+		
+		status=0;
+	}
+
+	read_system_time(acq_data->acq_tm);
+
+	if(status == 0)
+		acq_data->acq_status = ACQ_OK;
+	else 
+		acq_data->acq_status = ACQ_ERR;
+
+	return arg_n;
+}
+
+
+/*
+Author:Yimning
+Email:1148967988@qq.com
+Create Time:2021.07.12 Mon.
 Description:protocol_CEMS_BJXueDiLong_MODEL4000_CO_info
 TX:01 03 01 84 00 1A 85 D4
 RX:01 03 1A 
@@ -835,6 +989,8 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_CO_info(struct acquisition_data *acq_dat
 	devaddr=modbusarg->devaddr&0xffff;
 	cmd = 0x03;
 	t1=0;//1577808000; // 2020-01-01 00:00:00
+	if(!isPolcodeEnable(modbusarg, "a21005"))
+		return 0;
 	acqdata_set_value_flag(acq_data,"a21005",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 	status=1;
 	memset(com_tbuf,0,sizeof(com_tbuf));
@@ -994,6 +1150,8 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_CO2_info(struct acquisition_data *acq_da
 	devaddr=modbusarg->devaddr&0xffff;
 	cmd = 0x03;
 	t1=0;//1577808000; // 2020-01-01 00:00:00
+	if(!isPolcodeEnable(modbusarg, "a05001"))
+		return 0;
 	acqdata_set_value_flag(acq_data,"a05001",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 	status=1;
 	memset(com_tbuf,0,sizeof(com_tbuf));

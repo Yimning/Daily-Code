@@ -2735,6 +2735,7 @@ extern int protocol_CEMS_BJXueDiLong_MODEL4000_STATUS_info(struct acquisition_da
 extern int protocol_CEMS_BJXueDiLong_MODEL4000_SO2_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_BJXueDiLong_MODEL4000_NO_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_BJXueDiLong_MODEL4000_NO2_info(struct acquisition_data *acq_data);
+extern int protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_BJXueDiLong_MODEL4000_CO_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_BJXueDiLong_MODEL4000_CO2_info(struct acquisition_data *acq_data);
 extern int protocol_TSP_BeiFeng_SBF800_900_2021A_info(struct acquisition_data *acq_data);
@@ -3231,6 +3232,8 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{108113,3,protocol_CEMS_BJXueDiLong_MODEL4000_NO2_info},
 	{108113,4,protocol_CEMS_BJXueDiLong_MODEL4000_CO_info},
 	{108113,5,protocol_CEMS_BJXueDiLong_MODEL4000_CO2_info},
+	{108113,6,protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info},
+
 	{108115,0,protocol_TSP_BeiFeng_SBF800_900_2021A_info},
 	{108116,0,protocol_TSP_BeiFeng_SBF800_900_2021B_info},
 	{108121,0,protocol_CEMS_BJXueDiLong_SCS900PM_info},
