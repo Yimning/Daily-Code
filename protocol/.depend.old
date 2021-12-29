@@ -1,0 +1,9 @@
+k37acq_protocol.o .depend : k37acq_protocol.c \
+ /opt/linux/k37/src/k37/include/common.h \
+ /opt/linux/k37/src/k37/include/../../devices/include/common.h \
+ /opt/linux/k37/src/k37/include/../../devices/include/config.h \
+ /opt/linux/k37/src/k37/include/../../devices/include/control.h \
+ /opt/linux/k37/src/k37/include/../../devices/dev_eth.h \
+ /opt/linux/k37/src/k37/include/../../devices/dev_rtc.h \
+ /opt/linux/k37/src/k37/include/../../devices/dev_serial.h \
+ /opt/linux/k37/src/k37/k37acquisition.h k37acq_protocol.h

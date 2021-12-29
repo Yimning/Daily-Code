@@ -1,0 +1,12 @@
+CC=${CROSS_COMPILE}gcc
+LIBSO=libk37protocol.so
+
+HEADFILE= k37acq_protocol.h
+SRCFILE= k37acq_protocol.c
+
+all: ${SRCFILE} ${HEADFILE}
+	${CC} -I ../include/ -I ../ -I ../../devices/ -fpic  -c  k37acq_protocol.c
+	${CC} -shared -o  ${LIBSO}  k37acq_protocol.o
+
+clean:
+	rm k37acq_protocol.o ${LIBSO}

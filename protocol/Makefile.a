@@ -1,0 +1,11 @@
+#ENCRYPT_DISABLE=1
+INCLUDES=. ${TOPDIR}/src/k37/include ${TOPDIR}/src/k37/ 
+lib=k37protocol
+EXT_CFLAGS=-D_GNU_SOURCE -D_K37_CLI_
+ifndef ENCRYPT_DISABLE
+INCLUDES+=${TOPDIR}/src/encrypt
+#EXT_CFLAGS+=-D_ENCRYPT_ENABLE_
+endif
+
+include ${TOPDIR}/src/make/Make.build
+include ${TOPDIR}/src/make/Make.lib
