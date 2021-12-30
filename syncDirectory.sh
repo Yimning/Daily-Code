@@ -20,7 +20,6 @@ echo "\n"
 
 echo "commit message is $message" 
 
-
 git commit -m "$message"
 
 git add .
