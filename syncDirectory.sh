@@ -22,15 +22,13 @@ git add .
 
 echo "commit message is $message" 
 
-
-
 git commit -m "$message"
 
 
 
 #为了保证上传到github的文件可以上传成功，先要将所有的文件缓存到，再使用push一并传上去
 #git pull --rebase origin master
-
+git pull origin master
 
 #push指令上传文件
 
