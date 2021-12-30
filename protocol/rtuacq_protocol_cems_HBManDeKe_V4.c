@@ -22,7 +22,7 @@
 /*
 Description:protocol_CEMS_HBManDeKe_NO_V4
 Update by Yimning.
-Update Time:2021.13.18 Tues.
+Update Time:2021.12.28 Tues.
 */
 
 int protocol_CEMS_HBManDeKe_NO_V4(struct acquisition_data *acq_data)
