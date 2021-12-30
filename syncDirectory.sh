@@ -32,8 +32,8 @@ git pull origin master
 
 #push指令上传文件
 
-git push origin master
-
+#git push origin master
+git push
 
 
 
