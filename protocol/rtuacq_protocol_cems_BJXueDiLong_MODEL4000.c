@@ -919,7 +919,7 @@ int protocol_CEMS_BJXueDiLong_MODEL4000_HCL_info(struct acquisition_data *acq_da
 		valf = getFloatValue(p, 51 , dataType);
 		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
 		
-		status=0;  
+		status=0;   
 	}
 
 	read_system_time(acq_data->acq_tm);
