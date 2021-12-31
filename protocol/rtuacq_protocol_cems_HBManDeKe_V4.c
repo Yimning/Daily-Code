@@ -390,7 +390,7 @@ int protocol_CEMS_HBManDeKe_V4_NO_info(struct acquisition_data *acq_data)
 		valf = getFloatValue(p, 3, dataType);
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf = getFloatValue(p, 23, dataType);  git pull origin mastergit pull origin master
+		valf = getFloatValue(p, 23, dataType);  
 		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
  
 		valf = getFloatValue(p, 43, dataType); 
