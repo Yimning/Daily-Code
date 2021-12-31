@@ -386,7 +386,7 @@ int protocol_CEMS_HBManDeKe_V4_NO_info(struct acquisition_data *acq_data)
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"HBManDeKe NO INFO RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
 	if(p!=NULL) 
-	{
+	{  
 		valf = getFloatValue(p, 3, dataType);
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
