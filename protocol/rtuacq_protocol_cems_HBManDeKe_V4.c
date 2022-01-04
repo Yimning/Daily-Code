@@ -22,7 +22,7 @@
 /*
 Description:protocol_CEMS_HBManDeKe_NO_V4
 Update by Yimning.
-Update Time:2021.12.28 Tues.
+Update Time:2021.13.18 Tues.
 */
 
 int protocol_CEMS_HBManDeKe_NO_V4(struct acquisition_data *acq_data)
@@ -98,7 +98,6 @@ int protocol_CEMS_HBManDeKe_NO_V4(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	regpos = 0x67;
 	regcnt = 0x01;
-	dataType = FLOAT_CDAB;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"HBManDeKe Mark SEND:",com_tbuf,size);
@@ -192,7 +191,6 @@ int protocol_CEMS_HBManDeKe_V4_SO2_info(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	regpos = 0x0C;
 	regcnt = 0x6F;
-	dataType = FLOAT_CDAB;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"HBManDeKe SO2 INFO SEND:",com_tbuf,size);
@@ -372,7 +370,6 @@ int protocol_CEMS_HBManDeKe_V4_NO_info(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	regpos = 0x0A;
 	regcnt = 0x77;
-	dataType = FLOAT_CDAB;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
 
@@ -385,22 +382,22 @@ int protocol_CEMS_HBManDeKe_V4_NO_info(struct acquisition_data *acq_data)
 	SYSLOG_DBG_HEX("HBManDeKe NO data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"HBManDeKe NO INFO RECV:",com_rbuf,size);
 	p=modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
-	if(p!=NULL) 
-	{  
+	if(p!=NULL)
+	{
 		valf = getFloatValue(p, 3, dataType);
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf = getFloatValue(p, 23, dataType);  
+		valf = getFloatValue(p, 23, dataType);
 		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
- 
-		valf = getFloatValue(p, 43, dataType); 
+
+		valf = getFloatValue(p, 43, dataType);
 		acqdata_set_value_flag(acq_data,"i13010",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
 
 		valf = getFloatValue(p, 63, dataType);
 		acqdata_set_value_flag(acq_data,"i13025",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
 
 		valf = getFloatValue(p, 91, dataType);
-		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n); 
+		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		valf = getFloatValue(p, 95, dataType);
 		acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
@@ -486,7 +483,6 @@ int protocol_CEMS_HBManDeKe_V4_O2_info(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	regpos = 0x0E;
 	regcnt = 0x79;
-	dataType = FLOAT_CDAB;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
 

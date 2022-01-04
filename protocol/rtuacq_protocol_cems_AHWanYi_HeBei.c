@@ -71,7 +71,6 @@ int protocol_CEMS_AHWanYi_HeBei(struct acquisition_data *acq_data)
 	{
 		memset(p,0,sizeof(p));
 		modbus_ascii_pack_to_hex_pack(com_rbuf,size,p);
-		LOG_WRITE_HEX(DEV_NAME(acq_data),2,"AHWanYi HeBei CEMS RECV1:",p,sizeof(p));
 		
 		f.ch[3]=p[5];
 		f.ch[2]=p[6];
@@ -369,7 +368,7 @@ int protocol_CEMS_AHWanYi_HeBei_SO2_info(struct acquisition_data *acq_data)
 	char com_rbuf[2048]={0}; 
 	char com_tbuf[8]={0};
 	int size=0;
-	int ret=0;	
+	int ret=0;
 	int arg_n=0;
 	float valf=0;
 	int val=0;
@@ -413,7 +412,7 @@ int protocol_CEMS_AHWanYi_HeBei_SO2_info(struct acquisition_data *acq_data)
 	{
 		memset(p,0,sizeof(p));
 		modbus_ascii_pack_to_hex_pack(com_rbuf,size,p);
-		LOG_WRITE_HEX(DEV_NAME(acq_data),2,"AHWanYi SO2 INFO RECV1:",p,sizeof(p));
+
 		
 		val=p[3];
 		val<<=8;

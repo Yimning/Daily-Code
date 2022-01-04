@@ -277,7 +277,7 @@ int protocol_ZONGDAN_HBHuaHouTianCheng_new_info(struct acquisition_data *acq_dat
 		acqdata_set_value_flag(acq_data,"i13112",UNIT_PECENT,valf*100,INFOR_ARGUMENTS,&arg_n);
 
 		valf=getFloatValue(p, 45,  dataType);
-		acqdata_set_value_flag(acq_data,"i13104",UNIT_PECENT,valf*100,INFOR_ARGUMENTS,&arg_n);
+		acqdata_set_value_flag(acq_data,"i13106",UNIT_PECENT,valf*100,INFOR_ARGUMENTS,&arg_n);
 		
 		status=0;
 	}

@@ -99,6 +99,7 @@ static int curl_certification(struct check_data *checkdata,struct curl_opt *opt,
 	curl_easy_setopt(curl,CURLOPT_URL,url);
 	curl_easy_setopt(curl,CURLOPT_TIMEOUT,timeout);
 	curl_easy_setopt(curl,CURLOPT_NOSIGNAL,1L);
+	curl_easy_setopt(curl, CURLOPT_INTERFACE, "eth0");
 	
 	if(!strcmp(method,"POST"))
 	{
@@ -198,6 +199,7 @@ static int curl_info(struct check_data *checkdata,struct curl_opt *opt,char *res
 	curl_easy_setopt(curl,CURLOPT_WRITEDATA,&callbackData);
 	curl_easy_setopt(curl,CURLOPT_URL,url);
 	curl_easy_setopt(curl,CURLOPT_TIMEOUT,timeout);
+	curl_easy_setopt(curl, CURLOPT_INTERFACE, "eth0");
 	
 	if(!strcmp(method,"POST"))
 	{

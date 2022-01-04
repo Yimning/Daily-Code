@@ -52,8 +52,6 @@ int protocol_PH_KeRuiDa_ph8500A(struct acquisition_data *acq_data)
 	if(p!=NULL)
 	{
 		ph=getInt32Value(p, 3, LONG_ABCD);
-		//ph*=0.001;
-
 		val=p[7];
 		switch(val)
 		{
