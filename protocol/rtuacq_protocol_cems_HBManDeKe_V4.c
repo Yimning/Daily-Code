@@ -400,7 +400,7 @@ int protocol_CEMS_HBManDeKe_V4_NO_info(struct acquisition_data *acq_data)
 		acqdata_set_value_flag(acq_data,"i13025",UNIT_PECENT,valf,INFOR_ARGUMENTS,&arg_n);
 
 		valf = getFloatValue(p, 91, dataType);
-		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n); 
 
 		valf = getFloatValue(p, 95, dataType);
 		acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
