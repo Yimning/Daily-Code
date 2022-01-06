@@ -168,8 +168,8 @@ int protocol_sampler_HuiHuan_DEK1302_info(struct acquisition_data *acq_data)
 			val = 0;
 		else 
 			val = 1;
-		
-		acqdata_set_value(acq_data,"i42001",UNIT_NONE,val,INFOR_STATUS,&arg_n);
+
+		acqdata_set_value_flag(acq_data,"i42001",UNIT_NONE,val,INFOR_STATUS,&arg_n);
 		
 		status=0;
 	}
