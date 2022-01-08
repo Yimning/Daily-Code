@@ -1123,6 +1123,8 @@ int protocol_PLC_AnRomhXin_APT2000(struct acquisition_data *acq_data);
 int protocol_CEMS_BJXueDiLong_MODEL4000_1(struct acquisition_data *acq_data);
 int protocol_VOCs_TianJin712_DHT508(struct acquisition_data *acq_data);
 int protocol_ai_TianJin712_DHT508(struct acquisition_data *acq_data);
+int protocol_ai_7017rc_vol_Di(struct acquisition_data *acq_data);
+
 int protocol_CEMS_HBManDeKe_NO_V4(struct acquisition_data *acq_data);
 
 
@@ -2224,6 +2226,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8709,protocol_ai_7017rc_vol1},
 	{8710,protocol_VOCs_TianJin712_DHT508},
 	{8711,protocol_ai_TianJin712_DHT508},
+	{8712,protocol_ai_7017rc_vol_Di},
 
 	{8800,protocol_VOCs_TianZhiLan},
 	{8801,protocol_VOCs_SZHengFuSheng},
