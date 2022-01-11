@@ -189,10 +189,6 @@ int protocol_CEMS_AnRongXin_AGA1000_NOx_info(struct acquisition_data *acq_data)
 		valf = getFloatValue(p, 11,dataType);
 		acqdata_set_value_flag(acq_data,"i13023",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
-		val = getInt16Value(p, 21,INT_AB);
-		t3 = getTimeValue(BCD(val), BCD(p[20]), BCD(p[19]), BCD(p[23]), BCD(p[24]), BCD(p[25]));
-		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
-
 		valf = getFloatValue(p, 27,dataType);
 		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
@@ -286,8 +282,8 @@ int protocol_CEMS_AnRongXin_AGA1000_NOx_info(struct acquisition_data *acq_data)
 	{
 		if(NOx_code==1)
 		{
-			b = getFloatValue(p, 11, dataType);
-			k = getFloatValue(p, 15, dataType);
+			b = getFloatValue(p, 7, dataType);
+			k = getFloatValue(p, 11, dataType);
 		}
 		else
 		{
@@ -428,10 +424,6 @@ int protocol_CEMS_AnRongXin_AGA1000_SO2_info(struct acquisition_data *acq_data)
 		valf = getFloatValue(p, 11,dataType);
 		acqdata_set_value_flag(acq_data,"i13023",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
-		val = getInt16Value(p, 21,INT_AB);
-		t3 = getTimeValue(BCD(val), BCD(p[20]), BCD(p[19]), BCD(p[23]), BCD(p[24]), BCD(p[25]));
-		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
-
 		valf = getFloatValue(p, 27,dataType);
 		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
@@ -525,8 +517,8 @@ int protocol_CEMS_AnRongXin_AGA1000_SO2_info(struct acquisition_data *acq_data)
 	{
 		if(SO2_code==1)
 		{
-			b = getFloatValue(p, 11, dataType);
-			k = getFloatValue(p, 15, dataType);
+			b = getFloatValue(p, 7, dataType);
+			k = getFloatValue(p, 11, dataType);
 		}
 		else
 		{
@@ -618,10 +610,6 @@ int protocol_CEMS_AnRongXin_AGA1000_O2_info(struct acquisition_data *acq_data)
 
 		valf = getFloatValue(p, 11,dataType);
 		acqdata_set_value_flag(acq_data,"i13023",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-		val = getInt16Value(p, 21,INT_AB);
-		t3 = getTimeValue(BCD(val), BCD(p[20]), BCD(p[19]), BCD(p[23]), BCD(p[24]), BCD(p[25]));
-		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
 		valf = getFloatValue(p, 27,dataType);
 		acqdata_set_value_flag(acq_data,"i13028",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);

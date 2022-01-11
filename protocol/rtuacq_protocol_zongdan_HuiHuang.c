@@ -275,11 +275,6 @@ protocol_ZONGDAN_HuiHuang_info(struct acquisition_data *acq_data)
 		}
 
 		sscanf(&p[11],"%04X",&val);
-		if(val == 0)
-			acqdata_set_value_flag(acq_data,"i12102",UNIT_NONE,0,INFOR_STATUS,&arg_n);
-		else 
-			acqdata_set_value_flag(acq_data,"i12102",UNIT_NONE,1,INFOR_STATUS,&arg_n);
-		
 		switch(val){
 			case 0: acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,0,INFOR_STATUS,&arg_n); break;
 			case 256: acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,5,INFOR_STATUS,&arg_n); break;

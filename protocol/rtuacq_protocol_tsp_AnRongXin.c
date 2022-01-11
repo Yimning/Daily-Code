@@ -123,9 +123,9 @@ int protocol_TSP_AnRomhXin_info(struct acquisition_data *acq_data)
 	
 	acq_ctrl=ACQ_CTRL(acq_data);
 	modbusarg=&acq_ctrl->modbusarg_running;
-  
+
 	devaddr=modbusarg->devaddr&0xffff;
-	dataType=FLOAT_ABCD;  
+	dataType=FLOAT_ABCD;
 	t1=0;//1577808000; // 2020-01-01 00:00:00
 	acqdata_set_value_flag(acq_data,"a34013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 	status=1;

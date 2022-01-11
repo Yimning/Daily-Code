@@ -30,7 +30,7 @@ int protocol_FLUX_Lmag(struct acquisition_data *acq_data)
 	float total_flux_M3=0,speed=0;
 	union uf f;
 	int unitn=0;
-	int devaddr=0;
+	int devaddr=0,cmd=0,cnt=0;
 
 	struct acquisition_ctrl *acq_ctrl;
    	struct modbus_arg *modbusarg;
@@ -40,6 +40,8 @@ int protocol_FLUX_Lmag(struct acquisition_data *acq_data)
 	modbusarg=&acq_ctrl->modbusarg_running;
 
 	devaddr=modbusarg->devaddr&0xffff;
+	cmd=0x04;
+	cnt=0x12;
 	
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf, devaddr, 0x04,0x1010 ,0x12);

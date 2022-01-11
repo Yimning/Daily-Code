@@ -163,37 +163,6 @@ int protocol_COD_JuGuang_HeBei_info_func1(struct acquisition_data *acq_data,unsi
 			case 8: data->i12101=2; break;
 			default: data->i12101=99; break;
 		}
-
-		val=com_rbuf[11];
-		val<<=8;
-		val+=com_rbuf[12];
-
-		if(val==0)
-			data->i12103=0;
-		else if((val&0x0001)==0x0001)
-			data->i12103=99;
-		else if((val&0x0002)==0x0002)
-			data->i12103=99;
-		else if((val&0x0004)==0x0004)
-			data->i12103=4;
-		else if((val&0x0008)==0x0008)
-			data->i12103=1;
-		else if((val&0x0010)==0x0010)
-			data->i12103=5;
-		else if((val&0x0080)==0x0080)
-			data->i12103=99;
-		else if((val&0x0100)==0x0100)
-			data->i12103=7;
-		else if((val&0x0200)==0x0200)
-			data->i12103=8;
-		else 
-			data->i12103=99;
-			
-		
-		val=com_rbuf[36];
-		val<<=8;
-		val+=com_rbuf[37];
-		data->i12102=val;
 		
 		return 0;
 	}

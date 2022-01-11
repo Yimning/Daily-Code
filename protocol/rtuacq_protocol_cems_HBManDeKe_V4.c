@@ -191,6 +191,7 @@ int protocol_CEMS_HBManDeKe_V4_SO2_info(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	regpos = 0x0C;
 	regcnt = 0x6F;
+	dataType = FLOAT_CDAB ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"HBManDeKe SO2 INFO SEND:",com_tbuf,size);
@@ -370,6 +371,7 @@ int protocol_CEMS_HBManDeKe_V4_NO_info(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	regpos = 0x0A;
 	regcnt = 0x77;
+	dataType = FLOAT_CDAB ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
 
@@ -483,6 +485,7 @@ int protocol_CEMS_HBManDeKe_V4_O2_info(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	regpos = 0x0E;
 	regcnt = 0x79;
+	dataType = FLOAT_CDAB ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
 	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
 
