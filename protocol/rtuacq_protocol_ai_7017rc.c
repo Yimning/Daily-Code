@@ -366,7 +366,8 @@ int protocol_ai_7017rc_vol1(struct acquisition_data *acq_data)
 	int ret=0;
 	float hum=0,smoke=0,smokez=0,o2=0,temp=0,pres=0,a01017=0;
 	float speed = 0,PTC = 0,atmos = 0 ;
-	
+	int di[4] = {1};
+	char flag='N';
 	struct acquisition_ctrl *acq_ctrl;
 	struct modbus_arg *modbusarg_running;
 	struct modbus_polcode_arg *mpolcodearg,*mpolcodearg_temp;
@@ -500,6 +501,34 @@ ERROR_PACK:
 	if(isPolcodeEnable(modbusarg_running,"a01017"))
 		acqdata_set_value(acq_data,"a01011",UNIT_M_S,speed,&arg_n);
 
+	di[0]=0;
+	di[1]=0;
+	di[2]=0;
+	di[3]=0;
+
+	read_device(DEV_DI0,&di[0],sizeof(int));
+	read_device(DEV_DI1,&di[1],sizeof(int));
+	read_device(DEV_DI2,&di[2],sizeof(int));
+	read_device(DEV_DI3,&di[3],sizeof(int));
+
+	if(di[0]==1)
+		flag='C';
+	else if(di[1]==1)
+		flag='C';
+	else if(di[2]==1)
+		flag='N';
+	else if(di[3]==1)
+		flag='N';
+	else
+		flag='N';
+
+
+	if(status == 0)
+	{
+		acq_data->dev_stat = flag;
+   		acq_data->acq_status = ACQ_OK;
+	}
+
 	if(status == 0)
    		acq_data->acq_status = ACQ_OK;
 	else 
@@ -511,38 +540,7 @@ ERROR_PACK:
 }
 
 
-
-
-#if 0
-{9880,9600,0,8,1,7017RC@ 8\u8def\u6a21\u62df\u91cf\u8f6c485\u6a21\u57571},
-{9880,a01011,0,1,UNIT_M_S,1000,0,1000,0,0},
-{9880,a00000,0,1,UNIT_M3_H,10000000,0,10000000,0,2},
-{9880,a00000z,0,1,UNIT_M3_H,10000000,0,10000000,0,2},
-{9880,a21024z,0,1,UNIT_MG_M3,50,0,10000,0,2},
-{9880,a21024,0,1,UNIT_MG_M3,50,0,1000,0,0},
-{9880,a21005z,0,1,UNIT_MG_M3,200,0,10000,0,2},
-{9880,a21005,0,1,UNIT_MG_M3,200,0,1000,0,0},
-{9880,a21002z,0,1,UNIT_MG_M3,600,0,10000,0,2},
-{9880,a21002,0,1,UNIT_MG_M3,600,0,1000,0,0},
-{9880,a21026z,0,1,UNIT_MG_M3,200,0,10000,0,2},
-{9880,a21026,0,1,UNIT_MG_M3,200,0,1000,0,0},
-{9880,a34013z,0,1,UNIT_MG_M3,15,0,10000,0,2},
-{9880,a34013,0,1,UNIT_MG_M3,15,0,1000,0,0},
-{9880,a01012,0,1,UNIT_0C,1000,0,1000,0,0},
-{9880,a01013,0,1,UNIT_PA,1000000,-1000,1000000,-1000,0},
-{9880,a01014,0,1,UNIT_PECENT,40,0,100,0,0},
-{9880,a19001,0,1,UNIT_PECENT,21,0,100,0,0},
-{9880,w01001,0,1,UNIT_PH,14,0,14,0,0},
-{9880,w01010,0,1,UNIT_0C,100,0,100,0,0},
-{9880,w00000,0,1,UNIT_L_S,1000,0,1000,0,0},
-{9880,w21011,0,1,UNIT_MG_L,1000,0,1000,0,0},
-{9880,w21001,0,1,UNIT_MG_L,1000,0,1000,0,0},
-
-int protocol_ai_7017rc_vol1(struct acquisition_data *acq_data);
-	{9880,protocol_ai_7017rc_vol1},              
-
-
-int protocol_ai_7017rc_vol1(struct acquisition_data *acq_data)
+int protocol_ai_7017rc_vol_Di(struct acquisition_data *acq_data)
 {
 /*
  send : #01      send hex: 23 30 31 0d
@@ -560,9 +558,10 @@ int protocol_ai_7017rc_vol1(struct acquisition_data *acq_data)
 	float aivalf[9]={0};
 	union uf f;
 	int ret=0;
-	float hum=0,smoke=0,smokez=0,o2=0,temp=0,pres=0;
+	float hum=0,smoke=0,smokez=0,o2=0,temp=0,pres=0,a01017=0;
 	float speed = 0,PTC = 0;
-	
+	int di[4] = {1};
+	char flag='N';
 	struct acquisition_ctrl *acq_ctrl;
 	struct modbus_arg *modbusarg_running;
 	struct modbus_polcode_arg *mpolcodearg,*mpolcodearg_temp;
@@ -573,6 +572,10 @@ int protocol_ai_7017rc_vol1(struct acquisition_data *acq_data)
 	acq_ctrl=ACQ_CTRL(acq_data);
 	modbusarg_running=&acq_ctrl->modbusarg_running;
 	mpolcodearg=modbusarg_running->polcode_arg;
+
+	rdtuinfo=get_parent_rdtu_info(acq_data);
+
+	PTC=rdtuinfo->PTC;
 
 	ai1=ai2=ai3=ai4=ai5=ai6=ai7=ai8=0.0;
 
@@ -647,34 +650,22 @@ ERROR_PACK:
 			    aivalf[pos] +=mpolcodearg->alarmMin;
 				SYSLOG_DBG("ai%d pos=%d, 7017rc %s valf:%f,max %f,min %f\n",i,pos,
 					mpolcodearg->polcode,aivalf[pos],mpolcodearg->alarmMax,mpolcodearg->alarmMin);
-				/*
-				if(!strcmp(mpolcodearg->polcode,"a01014"))
-				{
-					hum=aivalf[pos];
-				}
-				else if(!strcmp(mpolcodearg->polcode,"a34013"))
-				{
-					smoke=aivalf[pos];
-				}
-				else if(!strcmp(mpolcodearg->polcode,"a19001"))
-				{
-					o2=aivalf[pos];
-				}
-				else if(!strcmp(mpolcodearg->polcode,"a01012"))
+
+				if(!strcmp(mpolcodearg->polcode,"a01012"))
 				{
 					temp=aivalf[pos];
 				}
 				else if(!strcmp(mpolcodearg->polcode,"a01013"))
 				{
 					pres=aivalf[pos];
+					if(mpolcodearg->unit == UNIT_KPA)
+						pres*=1000;
 				}
-				*/
 
 				if(!strcmp(mpolcodearg->polcode,"a01017"))
 				{
 					//speed=PTC*sqrt(fabs(aivalf[pos])*2/SAD);
-					speed=PTC*sqrt(fabs(aivalf[pos])*2/SAD);
-					acqdata_set_value(acq_data,"a01011",UNIT_M_S,speed,&arg_n);
+					a01017=aivalf[pos];
 				}
 				
 				acqdata_set_value(acq_data,mpolcodearg->polcode,mpolcodearg->unit,aivalf[pos],&arg_n);
@@ -686,22 +677,43 @@ ERROR_PACK:
 		}
 	    
 	}
-	/*
-	if(pres>-101325 && temp>-273 && hum<100 && o2<19 && o2>0)
-	{
-		smokez=smoke*(101325/(101325+pres))*((273+temp)/273)*(100/(100-hum));
-		smokez=smokez*((21-6)/(21-o2));
-	}
-	else
-	{
-		smokez=smoke;
-	}
-	*/
 
-	//acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,smokez,&arg_n);
+	if((pres>0) && (a01017>=0) && ((273+temp)>=0))
+		speed=1.414*PTC*sqrt(a01017*8312.0*(273.0+temp)/30.0/pres);
+	else
+		speed=0;
+
+	SYSLOG_DBG("speed = %f,aivalf[pos]= %f,temp = %f,pressure = %f,PTC=%f\n",speed,a01017,temp,pres,PTC);
+	if(isPolcodeEnable(modbusarg_running,"a01017"))
+		acqdata_set_value(acq_data,"a01011",UNIT_M_S,speed,&arg_n);
+
+	di[0]=0;
+	di[1]=0;
+	di[2]=0;
+	di[3]=0;
+
+	read_device(DEV_DI0,&di[0],sizeof(int));
+	read_device(DEV_DI1,&di[1],sizeof(int));
+	read_device(DEV_DI2,&di[2],sizeof(int));
+	read_device(DEV_DI3,&di[3],sizeof(int));
+
+	if(di[0]==1)
+		flag='C';
+	else if(di[1]==1)
+		flag='C';
+	else if(di[2]==1)
+		flag='N';
+	else if(di[3]==1)
+		flag='N';
+	else
+		flag='N';
+
 
 	if(status == 0)
+	{
+		acq_data->dev_stat = flag;
    		acq_data->acq_status = ACQ_OK;
+	}
 	else 
  		acq_data->acq_status = ACQ_ERR;
 
@@ -709,7 +721,6 @@ ERROR_PACK:
 
     return arg_n;
 }
-#endif
 
 
 int protocol_CEMS_7017rc_RO(struct acquisition_data *acq_data)

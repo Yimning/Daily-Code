@@ -1126,6 +1126,7 @@ int protocol_VOCs_TianJin712_DHT508(struct acquisition_data *acq_data);
 int protocol_ai_TianJin712_DHT508(struct acquisition_data *acq_data);
 int protocol_CEMS_AHLvShi(struct acquisition_data *acq_data);
 int protocol_TSP_ZhongXing_DM601_Low(struct acquisition_data *acq_data);
+int protocol_ai_7017rc_vol_Di(struct acquisition_data *acq_data);
 
 int protocol_VOCs_ZhuozhengGB2017(struct acquisition_data *acq_data);
 int protocol_VOCs_ZhuoZheng(struct acquisition_data *acq_data);
@@ -2223,7 +2224,8 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8709,protocol_ai_7017rc_vol1},
 	{8710,protocol_VOCs_TianJin712_DHT508},
 	{8711,protocol_ai_TianJin712_DHT508},
-
+	{8712,protocol_ai_7017rc_vol_Di},
+	
 	{8800,protocol_VOCs_TianZhiLan},
 	{8801,protocol_VOCs_SZHengFuSheng},
 	{8802,protocol_VOCs_SZHengFuSheng2},
