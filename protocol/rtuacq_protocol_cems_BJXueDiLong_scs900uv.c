@@ -106,11 +106,38 @@ int protocol_CEMS_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 			else
 			{
 				val=com_rbuf[4];
-				if(val>=3 && val<=7)
+				if((val)==0)
+				{
+					flag='N';
+				}
+				else if(val==0x01)
+				{
+					flag='N';
+				}
+				else if(val==0x02)
 				{
 					flag='C';
 				}
-				else
+				else	if(val==0x03)
+				{
+					flag='C';
+				}
+				else	if(val==0x04)
+				{
+					flag='C';
+				}
+				else	if(val==0x05)
+				{
+					flag='C';
+				}
+				else	if(val==0x06)
+				{
+					flag='C';
+				}
+				else	if(val==0x07)
+				{
+					flag='C';
+				}else
 				{
 					flag='N';
 				}
@@ -227,13 +254,48 @@ int protocol_CEMS_BJXueDiLong_scs900uv_SO2_info(struct acquisition_data *acq_dat
 					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				}
-				else if(val>=3 && val<=7)
+				else if(val==0x01)
+				{
+					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				}
+				else if(val==0x02)
 				{
 					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,6,INFOR_STATUS,&arg_n);
 					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				}
-				else
+				else	if(val==0x03)
+				{
+					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,6,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				}
+				else	if(val==0x04)
+				{
+					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,6,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				}
+				else	if(val==0x05)
+				{
+					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,6,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				}
+				else	if(val==0x06)
+				{
+					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,6,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				}
+				else	if(val==0x07)
+				{
+					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,6,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+					acqdata_set_value_flag(acq_data,"i12009",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				}else
 				{
 					acqdata_set_value_flag(acq_data,"i12007",UNIT_NONE,99,INFOR_STATUS,&arg_n);
 					acqdata_set_value_flag(acq_data,"i12008",UNIT_NONE,0,INFOR_STATUS,&arg_n);
@@ -559,11 +621,14 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 	int size=0;
 	int val;
 	float valf[5];
+	float nh3=0;
 	int ret=0;
 	int arg_n=0;
-	int devaddr=0;
+	unsigned int devaddr=0,cmd=0,startaddr=0,cnt=0;
+	char *p=NULL;
 	int smoke_flag;
 	float speed,atm_press,PTC;
+	char flag[2]={0};
 
 	struct acquisition_ctrl *acq_ctrl;
    	struct modbus_arg *modbusarg;
@@ -576,13 +641,16 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 
 	rdtuinfo=get_parent_rdtu_info(acq_data);
 	devaddr=modbusarg->devaddr&0xffff;
+	cmd=0x03;
+	startaddr=44005;
+	cnt=0x05;
 	PTC=rdtuinfo->PTC;
 	atm_press=rdtuinfo->atm_press*1000;
 
 	smoke_flag=0;
 
 	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,0x03,0x0FA4,0x05);
+	size=modbus_pack(com_tbuf,devaddr,cmd,startaddr-40001,cnt);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong SCS-900UV PLC SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
@@ -591,19 +659,20 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 	SYSLOG_DBG("BJXueDiLong SCS-900UV PLC protocol,PLC : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("BJXueDiLong SCS-900UV PLC data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS-900UV PLC RECV:",com_rbuf,size);
-	if((size>=15)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, cnt);
+	if(p!=NULL)
 	{
-		val=com_rbuf[3];
+		val=p[3];
 		val<<=8;
-		val+=com_rbuf[4];
+		val+=p[4];
 		valf[0]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a01014");
 
 		modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a34013a");
 		if(modbus_polcode_arg_tmp!=NULL && modbus_polcode_arg_tmp->enableFlag==1)
 		{
-			val=com_rbuf[5];
+			val=p[5];
 			val<<=8;
-			val+=com_rbuf[6];
+			val+=p[6];
 			valf[1]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a34013a");
 			smoke_flag=1;				
 		}
@@ -612,43 +681,44 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 			modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a34013");
 			if(modbus_polcode_arg_tmp!=NULL && modbus_polcode_arg_tmp->enableFlag==1)
 			{
-				val=com_rbuf[5];
+				val=p[5];
 				val<<=8;
-				val+=com_rbuf[6];
+				val+=p[6];
 				valf[1]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a34013");
 				smoke_flag=1;
 			}
 		}
 
-		val=com_rbuf[7];
+		val=p[7];
 		val<<=8;
-		val+=com_rbuf[8];
+		val+=p[8];
 		valf[2]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a01011");
 
-		val=com_rbuf[9];
+		val=p[9];
 		val<<=8;
-		val+=com_rbuf[10];
+		val+=p[10];
 		valf[3]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a01012");
 
-		val=com_rbuf[11];
+		val=p[11];
 		val<<=8;
-		val+=com_rbuf[12];
+		val+=p[12];
 		valf[4]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a01013");
 
 		modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a01013");
 
 		if(modbus_polcode_arg_tmp!=NULL)
 		{
-		SYSLOG_DBG("SCS-900UV %f,%f,%f,%f,%f,%f,%f,%d\n",valf[0],valf[1],valf[2],valf[3],valf[4],
-		modbus_polcode_arg_tmp->alarmMax,modbus_polcode_arg_tmp->alarmMin,val);
+			SYSLOG_DBG("SCS-900UV %f,%f,%f,%f,%f,%f,%f,%d\n",valf[0],valf[1],valf[2],valf[3],valf[4],
+				modbus_polcode_arg_tmp->alarmMax,modbus_polcode_arg_tmp->alarmMin,val);
 		}
 
 		if(PTC>0 && (valf[3]+273)>0 && (valf[4]+atm_press)>0)
-		speed=PTC*valf[2]*sqrt(((valf[3]+273)/273)*(101325/(valf[4]+atm_press))*(2/1.2928));
+			speed=PTC*valf[2]*sqrt(((valf[3]+273)/273)*(101325/(valf[4]+atm_press))*(2/1.2928));
 		else
-		speed=0;
+			speed=0;
 
 		status=0;
+		flag[0]='N';
 	}
 	else
 	{
@@ -658,8 +728,45 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 		valf[3]=0;
 		valf[4]=0;
 		status=1;
+		flag[0]='D';
 	}
-	
+
+	sleep(1);
+	startaddr=44019;
+	cnt=0x01;
+	memset(com_tbuf,0,sizeof(com_tbuf));
+	size=modbus_pack(com_tbuf,devaddr,cmd,startaddr-40001,cnt);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong SCS-900UV PLC NH3 SEND:",com_tbuf,size);
+	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
+	sleep(1);
+	memset(com_rbuf,0,sizeof(com_rbuf));
+	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
+	SYSLOG_DBG("BJXueDiLong SCS-900UV PLC protocol,PLC NH3 : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("BJXueDiLong SCS-900UV PLC NH3 data",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS-900UV PLC NH3 RECV:",com_rbuf,size);
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, cnt);
+	if(p!=NULL)
+	{
+		val=getInt16Value(p, 3, INT_AB);
+		modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a21001a");
+		if(modbus_polcode_arg_tmp!=NULL && modbus_polcode_arg_tmp->enableFlag==1)
+		{
+			nh3=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a21001a");
+		}
+		else
+		{
+			nh3=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a21001");
+		}
+		flag[1]='N';
+		
+	}
+	else
+	{
+		nh3=0;
+		flag[1]='D';
+	}
+
+#if 0	
 	acqdata_set_value(acq_data,"a01014",UNIT_PECENT,valf[0],&arg_n);
 	acqdata_set_value(acq_data,"a01011",UNIT_M_S,speed,&arg_n);
 	acqdata_set_value(acq_data,"a01012",UNIT_0C,valf[3],&arg_n);
@@ -680,6 +787,25 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 	else 
 		acq_data->acq_status = ACQ_ERR;
 	NEED_ERROR_CACHE(acq_data, 10);
+#else
+	acqdata_set_value_flag(acq_data,"a01014",UNIT_PECENT,valf[0],flag[0],&arg_n);
+	acqdata_set_value_flag(acq_data,"a01011",UNIT_M_S,speed,flag[0],&arg_n);
+	acqdata_set_value_flag(acq_data,"a01012",UNIT_0C,valf[3],flag[0],&arg_n);
+	acqdata_set_value_flag(acq_data,"a01013",UNIT_PA,valf[4],flag[0],&arg_n);
+	acqdata_set_value_flag(acq_data,"a00000",UNIT_M3_S,0,flag[0],&arg_n);
+	acqdata_set_value_flag(acq_data,"a00000z",UNIT_M3_S,0,flag[0],&arg_n);
+	acqdata_set_value_flag(acq_data,"a34013a",UNIT_MG_M3,valf[1],flag[0],&arg_n);
+	acqdata_set_value_flag(acq_data,"a34013",UNIT_MG_M3,valf[1],flag[0],&arg_n); 
+	acqdata_set_value_flag(acq_data,"a34013z",UNIT_MG_M3,0,flag[0],&arg_n);
+
+	acqdata_set_value_flag(acq_data,"a21001a",UNIT_MG_M3,nh3,flag[1],&arg_n);
+	acqdata_set_value_flag(acq_data,"a21001",UNIT_MG_M3,nh3,flag[1],&arg_n);
+	acqdata_set_value_flag(acq_data,"a21001z",UNIT_MG_M3,nh3,flag[1],&arg_n);
+
+	acq_data->dev_stat = 0xAA;
+	acq_data->acq_status = ACQ_OK;
+	NEED_ERROR_CACHE_ONE_POLCODE_VALUE(acq_data, arg_n, 10);
+#endif
 	return arg_n;
 }
 
