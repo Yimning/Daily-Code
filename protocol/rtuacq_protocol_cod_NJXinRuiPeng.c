@@ -237,6 +237,9 @@ int protocol_COD_NJXinRuiPeng_info(struct acquisition_data *acq_data)
 		t3=getTimeValue(BCD(com_rbuf[27])+2000, BCD(com_rbuf[28]), BCD(com_rbuf[29]), BCD(com_rbuf[30]), BCD(com_rbuf[31]), BCD(com_rbuf[32]));
 		acqdata_set_value_flag(acq_data,"i13107",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
+		valf=getFloatValue(com_rbuf, 35, dataType);
+		acqdata_set_value_flag(acq_data,"i13101",UNIT_MG_L,valf,INFOR_ARGUMENTS,&arg_n);
+
 		valf=getFloatValue(com_rbuf, 39, dataType);
 		acqdata_set_value_flag(acq_data,"i13105",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
@@ -511,6 +514,9 @@ int protocol_water_NJXinRuiPeng_info(struct acquisition_data *acq_data)
 
 		t3=getTimeValue(BCD(p[27])+2000, BCD(p[28]), BCD(p[29]), BCD(p[30]), BCD(p[31]), BCD(p[32]));
 		acqdata_set_value_flag(acq_data,"i13107",t3,0.0,INFOR_ARGUMENTS,&arg_n);
+
+		valf=getFloatValue(p, 35, dataType);
+		acqdata_set_value_flag(acq_data,"i13101",UNIT_MG_L,valf,INFOR_ARGUMENTS,&arg_n);
 
 		valf=getFloatValue(p, 39, dataType);
 		acqdata_set_value_flag(acq_data,"i13105",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
