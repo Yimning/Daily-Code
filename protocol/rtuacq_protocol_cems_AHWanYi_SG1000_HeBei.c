@@ -36,7 +36,8 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei(struct acquisition_data *acq_data)
 	int val;
 	char flag=0;
 	char p[1024];
-
+	long time_val = 0;
+	int year=0, mon=0, day, hour=0, min=0, sec=0;
 	static int O2_cnt=0;
 
 	struct acquisition_ctrl *acq_ctrl;
@@ -375,6 +376,8 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei_SO2_info(struct acquisition_data *acq_dat
 	int devaddr=0;
 	int alarm;
 	union uf f;
+	long time_val = 0;
+	int year=0, mon=0, day, hour=0, min=0, sec=0;
 	char p[1024];
 
 	struct tm timer;
@@ -464,32 +467,30 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei_SO2_info(struct acquisition_data *acq_dat
 		f.ch[0]=p[8];
 		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,f.f,INFOR_ARGUMENTS,&arg_n);
 
-		val=BCD(p[27]);
-		val*=100;
-		val+=BCD(p[28]);
-		timer.tm_year=val-1900;
-		timer.tm_mon=BCD(p[29])-1;
-		timer.tm_mday=BCD(p[30]);
-		timer.tm_hour=BCD(p[32]);
-		timer.tm_min=BCD(p[33]);
-		timer.tm_sec=BCD(p[34]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
+		time_val = getInt32Value(p, 27, LONG_CDAB);
+		year=time_val/10000;
+		mon=(time_val%10000)/100;
+		day=time_val%100;
+		
+                time_val = getInt32Value(p, 31, LONG_CDAB);
+		hour=time_val/10000;
+		min=(time_val%10000)/100;
+		sec=time_val%100;
+		t3=getTimeValue(year, mon,  day, hour, min, sec);
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
-		val=BCD(p[35]);
-		val*=100;
-		val+=BCD(p[36]);
-		timer.tm_year=val-1900;
-		timer.tm_mon=BCD(p[37])-1;
-		timer.tm_mday=BCD(p[38]);
-		timer.tm_hour=BCD(p[40]);
-		timer.tm_min=BCD(p[41]);
-		timer.tm_sec=BCD(p[42]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
+		time_val = getInt32Value(p, 35, LONG_CDAB);
+		year=time_val/10000;
+		mon=(time_val%10000)/100;
+		day=time_val%100;
 		
+                time_val = getInt32Value(p, 39, LONG_CDAB);
+		hour=time_val/10000;
+		min=(time_val%10000)/100;
+		sec=time_val%100;
+		t3=getTimeValue(year, mon,  day, hour, min, sec);
+		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
+
 		status=0;
 	}
 
@@ -597,6 +598,8 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei_NOx_info(struct acquisition_data *acq_dat
 	int val=0;
 	int devaddr=0;
 	union uf f;
+	long time_val = 0;
+	int year=0, mon=0, day, hour=0, min=0, sec=0;
 	char p[1024];
 
 	struct tm timer;
@@ -680,30 +683,28 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei_NOx_info(struct acquisition_data *acq_dat
 		f.ch[0]=p[8];
 		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,f.f,INFOR_ARGUMENTS,&arg_n);
 
-		val=BCD(p[35]);
-		val*=100;
-		val+=BCD(p[36]);
-		timer.tm_year=val-1900;
-		timer.tm_mon=BCD(p[37])-1;
-		timer.tm_mday=BCD(p[38]);
-		timer.tm_hour=BCD(p[40]);
-		timer.tm_min=BCD(p[41]);
-		timer.tm_sec=BCD(p[42]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
+		time_val = getInt32Value(p, 35, LONG_CDAB);
+		year=time_val/10000;
+		mon=(time_val%10000)/100;
+		day=time_val%100;
+		
+                time_val = getInt32Value(p, 39, LONG_CDAB);
+		hour=time_val/10000;
+		min=(time_val%10000)/100;
+		sec=time_val%100;
+		t3=getTimeValue(year, mon,  day, hour, min, sec);
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
-		val=BCD(p[43]);
-		val*=100;
-		val+=BCD(p[44]);
-		timer.tm_year=val-1900;
-		timer.tm_mon=BCD(p[45])-1;
-		timer.tm_mday=BCD(p[46]);
-		timer.tm_hour=BCD(p[48]);
-		timer.tm_min=BCD(p[49]);
-		timer.tm_sec=BCD(p[50]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
+		time_val = getInt32Value(p, 43, LONG_CDAB);
+		year=time_val/10000;
+		mon=(time_val%10000)/100;
+		day=time_val%100;
+		
+                time_val = getInt32Value(p, 47, LONG_CDAB);
+		hour=time_val/10000;
+		min=(time_val%10000)/100;
+		sec=time_val%100;
+		t3=getTimeValue(year, mon,  day, hour, min, sec);
 		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 		
 		status=0;
@@ -764,6 +765,8 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei_O2_info(struct acquisition_data *acq_data
 	int val=0;
 	int devaddr=0;
 	union uf f;
+	long time_val = 0;
+	int year=0, mon=0, day, hour=0, min=0, sec=0;
 	char p[1024];
 
 	struct tm timer;
@@ -847,30 +850,28 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei_O2_info(struct acquisition_data *acq_data
 		f.ch[0]=p[8];
 		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,f.f,INFOR_ARGUMENTS,&arg_n);
 
-		val=BCD(p[43]);
-		val*=100;
-		val+=BCD(p[44]);
-		timer.tm_year=val-1900;
-		timer.tm_mon=BCD(p[45])-1;
-		timer.tm_mday=BCD(p[46]);
-		timer.tm_hour=BCD(p[48]);
-		timer.tm_min=BCD(p[49]);
-		timer.tm_sec=BCD(p[50]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
+		time_val = getInt32Value(p, 43, LONG_CDAB);
+		year=time_val/10000;
+		mon=(time_val%10000)/100;
+		day=time_val%100;
+		
+                time_val = getInt32Value(p, 47, LONG_CDAB);
+		hour=time_val/10000;
+		min=(time_val%10000)/100;
+		sec=time_val%100;
+		t3=getTimeValue(year, mon,  day, hour, min, sec);
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
-		val=BCD(p[51]);
-		val*=100;
-		val+=BCD(p[52]);
-		timer.tm_year=val-1900;
-		timer.tm_mon=BCD(p[53])-1;
-		timer.tm_mday=BCD(p[54]);
-		timer.tm_hour=BCD(p[56]);
-		timer.tm_min=BCD(p[57]);
-		timer.tm_sec=BCD(p[58]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
+		time_val = getInt32Value(p, 51, LONG_CDAB);
+		year=time_val/10000;
+		mon=(time_val%10000)/100;
+		day=time_val%100;
+		
+                time_val = getInt32Value(p, 55, LONG_CDAB);
+		hour=time_val/10000;
+		min=(time_val%10000)/100;
+		sec=time_val%100;
+		t3=getTimeValue(year, mon,  day, hour, min, sec);
 		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 		
 		status=0;
@@ -930,6 +931,8 @@ int protocol_CEMS_AHWanYi_SG1000_HeBei_TSP_info(struct acquisition_data *acq_dat
 	int val=0;
 	int devaddr=0;
 	union uf f;
+	long time_val = 0;
+	int year=0, mon=0, day, hour=0, min=0, sec=0;
 	char p[1024];
 
 	struct tm timer;

@@ -39,8 +39,6 @@ DataType and Analysis:
 	(FLOAT_ABCD) 3C 4B 5D 5D  = 0.0124
 */
 
-static char BJXueDiLong_SCS900CPM_Mark = 'N';
-
 int protocol_CEMS_BJXueDiLong_SCS900CPM(struct acquisition_data *acq_data)
 {
 	int status=0;
@@ -124,10 +122,8 @@ int protocol_CEMS_BJXueDiLong_SCS900CPM(struct acquisition_data *acq_data)
 	acqdata_set_value_orig(acq_data,"a34013",UNIT_MG_M3,smoke,orig,&arg_n);
 	acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,0,&arg_n);
 
-	if(status == 0){
+	if(status == 0)
 		acq_data->acq_status = ACQ_OK;
-		acq_data->dev_stat= BJXueDiLong_SCS900CPM_Mark;
-	}
 	else 
 		acq_data->acq_status = ACQ_ERR;
 	NEED_ERROR_CACHE(acq_data, 10);
@@ -198,22 +194,22 @@ int protocol_CEMS_BJXueDiLong_SCS900CPM_info(struct acquisition_data *acq_data)
 	        val = getInt16Value(p, 3,  INT_AB);
 		switch(val){
         		case 1:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='N';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				break;
         		case 16:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,5,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='z';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,5,INFOR_STATUS,&arg_n);
 				break;
         		case 32:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,6,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='C';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,6,INFOR_STATUS,&arg_n);
 				break;
         		case 64:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,1,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='M';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,1,INFOR_STATUS,&arg_n);
 				break;
         		case 128:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='D';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);
 				break;
         		default:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='N';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);
 				break;
 		}
 		status=0;
