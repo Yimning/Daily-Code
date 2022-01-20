@@ -245,7 +245,7 @@ int protocol_CEMS_BJXueDiLong_SCS900PM_info(struct acquisition_data *acq_data)
 	}
 	else 
 	{
-		status =1;
+		status =1;   
 	}
 
 	sleep(1);
