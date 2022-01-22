@@ -386,8 +386,7 @@ extern int acqdata_set_stattdata(struct acquisition_data *acq_data,
 int protocol_HeBei(struct acquisition_data *acq_data,char *polcode2005HB[100],int polcode2005HB_len,
 	                       char * polcode2017HB[100],int polcode2017HB_len,UNIT_DECLARATION units[100],int units_len);
 
-int protocol_XinJiang(struct acquisition_data *acq_data,char *polcode2005HB[100],int polcode2005HB_len,
-	                       char * polcode2017HB[100],int polcode2017HB_len,UNIT_DECLARATION units[100],int units_len);
+int protocol_XinJiang(struct acquisition_data *acq_data,char *polcode05[],char *polcode17[],UNIT_DECLARATION *units,int polcode_num);
 
 int protocol_FLUX_jiubo_LS(struct acquisition_data *acq);
 int protocol_FLUX_jiubo_M3H(struct acquisition_data *acq);
@@ -573,6 +572,7 @@ int protocol_COD_EndressHauser_CA80(struct acquisition_data *acq_data);
 int protocol_COD_HeBeiHuaHouTianCheng_E(struct acquisition_data *acq_data);
 int protocol_COD_BJLiDa(struct acquisition_data *acq_data);
 int protocol_COD_GLYunJing_HeBei_Stay(struct acquisition_data *acq_data);
+int protocol_COD_NJXinRuiPeng_New (struct acquisition_data *acq_data);
 	
 int protocol_ANDAN_USAhaxi(struct acquisition_data *acq_data);
 int protocol_ANDAN_GZyiwen(struct acquisition_data *acq_data);
@@ -665,6 +665,7 @@ int protocol_ANDAN_EndressHauser_CA80(struct acquisition_data *acq_data);
 int protocol_ANDAN_HeBeiHuaHouTianCheng_E(struct acquisition_data *acq_data);
 int protocol_ANDAN_BJLiDa(struct acquisition_data *acq_data);
 int protocol_ANDAN_GLYunJing_HeBei_Stay(struct acquisition_data *acq_data);
+int protocol_ANDAN_NJXinRuiPeng_New (struct acquisition_data *acq_data);
 
 int protocol_Lin_GZYiWenEST2003(struct acquisition_data *acq_data);
 int protocol_Lin_HZFuMing(struct acquisition_data *acq_data);
@@ -738,6 +739,7 @@ int protocol_ZONGLIN_NJJuGe_New(struct acquisition_data *acq_data);
 int protocol_ZONGLIN_HeBeiHuaHouTianCheng_E(struct acquisition_data *acq_data);
 int protocol_ZONGLIN_BJLiDa(struct acquisition_data *acq_data);
 int protocol_ZONGLIN_GLYunJing_HeBei_Stay(struct acquisition_data *acq_data);
+int protocol_ZONGLIN_NJXinRuiPeng_New (struct acquisition_data *acq_data);
 
 int protocol_ZONGDAN_ChuangZao(struct acquisition_data * acq_data);
 int protocol_ZONGDAN_ZhuoZheng(struct acquisition_data *acq_data);
@@ -795,6 +797,7 @@ int protocol_ZONGDAN_NJJuGe_New(struct acquisition_data *acq_data);
 int protocol_ZONGDAN_HeBeiHuaHouTianCheng_E(struct acquisition_data *acq_data);
 int protocol_ZONGDAN_BJLiDa(struct acquisition_data *acq_data);
 int protocol_ZONGDAN_GLYunJing_HeBei_Stay(struct acquisition_data *acq_data);
+int protocol_ZONGDAN_NJXinRuiPeng_New (struct acquisition_data *acq_data);
 
 int protocol_water_YuXing_Modbus(struct acquisition_data *acq_data);
 int protocol_water_GLYunJing_HeBei(struct acquisition_data *acq_data);
@@ -1018,7 +1021,6 @@ int protocol_TSP_AnRomhXin(struct acquisition_data *acq_data);
 int protocol_CEMS_QDJiaMing(struct acquisition_data *acq_data);
 int protocol_cems_JuGuang_ai(struct acquisition_data *acq_data);
 int protocol_CEMS_AHWanYi_HeBei(struct acquisition_data *acq_data);
-int protocol_CEMS_AHWanYi_HeBei_New(struct acquisition_data *acq_data);
 int protocol_CEMS_BJXueDiLong_scs900uv(struct acquisition_data *acq_data);
 int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data);
 int protocol_PLC_BJXueDiLong_scs900c(struct acquisition_data *acq_data);
@@ -1275,6 +1277,7 @@ int protocol_PH_SHLuoBo(struct acquisition_data *acq_data);
 int protocol_ai_7017rc(struct acquisition_data *acq_data);/*miles zhang 202000709*/
 int protocol_ai_7017rc_vol(struct acquisition_data *acq_data);
 int protocol_ai_7017rc_vol1(struct acquisition_data *acq_data);
+int protocol_ai_7017rc_vol_Di(struct acquisition_data *acq_data);
 int protocol_CEMS_7017rc_RO(struct acquisition_data *acq_data);
 int protocol_ai_4017rc(struct acquisition_data *acq_data);
 int protocol_modbus_ai_4017rc(struct acquisition_data *acq_data);
@@ -1300,7 +1303,7 @@ int protocol_others_YULV_LiDe(struct acquisition_data *acq_data);
 int protocol_PH_221B(struct acquisition_data *acq_data);
 int protocol_ph_LianCeV8(struct acquisition_data * acq_data);
 int protocol_ph_PHORP_G8306(struct acquisition_data *acq_data);
-int protocol_ph_SHPuSheng(struct acquisition_data *acq_data);
+
 int protocol_xCN_HBHuaHouTianCheng(struct acquisition_data *acq_data);
 int protocol_HUIFAFEN_HBHuaHouTianCheng(struct acquisition_data *acq_data);
 
@@ -1600,7 +1603,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{2153,protocol_COD_QDJiaMing},
 	{2154,protocol_COD_HZfuming},
 	{2155,protocol_COD_DaoJin4100CN},
-	{2156,protocol_COD_DaoJin4200CN},
+	{2156,protocol_COD_DaoJin4200CN},		        
 	{2161,protocol_COD_ShiHuiLin},
 	{2162,protocol_COD_HeBei},
 	{2163,protocol_COD_ZhuoZheng2},
@@ -1609,6 +1612,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 
 	{2200,protocol_COD_ZeTian_GBhjt2005},
 	{2201,protocol_COD_ZJHZLiQi_V2},
+	{2202,protocol_COD_NJXinRuiPeng_New},
 
 	{2266,protocol_COD_HBKeruida},
 
@@ -1707,6 +1711,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{3101,protocol_ANDAN_NeiMengGu},					/*yuiki 20191228*/
 	{3110,protocol_ANDAN_WHSiFuMing},					/*yuiki 20191126*/
 	{3111,protocol_ANDAN_ZJHZLiQi_V2},
+	{3112,protocol_ANDAN_NJXinRuiPeng_New},
 
 	{3120,protocol_ANDAN_HBKeruida},
 	{3121,protocol_ANDAN_YuXing_HeBei},
@@ -1780,6 +1785,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 
 	{4100,protocol_ZONGLIN_NJHongGuang2},
 	{4101,protocol_ZONGLIN_ZJHZLiQi_V2},
+	{4102,protocol_ZONGLIN_NJXinRuiPeng_New},
 	
 	{4200,protocol_ZONGLIN_ZeTian_GBhjt2005},
 	
@@ -1838,6 +1844,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{5040,protocol_ZONGDAN_HeBeiHuaHouTianCheng_E},
 	{5041,protocol_ZONGDAN_BJLiDa},
 	{5042,protocol_ZONGDAN_GLYunJing_HeBei_Stay},
+	{5043,protocol_ZONGDAN_NJXinRuiPeng_New},
 
 	{5050,protocol_ZONGDAN_HBKeruida},
 	{5051,protocol_ZONGDAN_YuXing_HeBei},
@@ -2132,7 +2139,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8134,protocol_CEMS_RuiAnRA8000},
 	{8135,protocol_CEMS_BJXueDiLong_MODEL4000_1},
 	{8136,protocol_CEMS_HBManDeKe_NO_V4},
-	{8140,protocol_CEMS_AHWanYi_HeBei_New},
+
 	{8157,protocol_TSP_AnRomhXin_LSS2004_LSS2014},
 	{8158,protocol_O2_AnRongXin_ARX5100},
 	{8159,protocol_PLC_AnRomhXin_APT2000},
@@ -2224,6 +2231,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8709,protocol_ai_7017rc_vol1},
 	{8710,protocol_VOCs_TianJin712_DHT508},
 	{8711,protocol_ai_TianJin712_DHT508},
+	{8712,protocol_ai_7017rc_vol_Di},
 
 	{8800,protocol_VOCs_TianZhiLan},
 	{8801,protocol_VOCs_SZHengFuSheng},
@@ -2294,7 +2302,6 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{9051,protocol_PH_KeRuiDa_ph8500A},
 
 	{9055,protocol_ph_PHORP_G8306},
-	{9056,protocol_ph_SHPuSheng},
 
 	{9100,protocol_WATER_GBhjt2005},					/*yuiki 20191230*/
 	{9101,protocol_WATER_GBhjt2017},					/*yuiki 20191230*/
@@ -2454,6 +2461,7 @@ extern int protocol_COD_ZJHZLiQi_V2_info(struct acquisition_data *acq_data);
 extern int protocol_COD_EndressHauser_CA80_info(struct acquisition_data *acq_data);
 extern int protocol_COD_HeBeiHuaHouTianCheng_E_info(struct acquisition_data *acq_data);
 extern int protocol_COD_BJLiDa_info(struct acquisition_data *acq_data);
+extern int protocol_COD_NJXinRuiPeng_New_info(struct acquisition_data *acq_data);
 
 extern int protocol_ANDAN_NJRuiQuanModbus_info(struct acquisition_data *acq_data);
 extern int protocol_ANDAN_NJHongGuang_info(struct acquisition_data *acq_data);
@@ -2506,6 +2514,7 @@ extern int protocol_ANDAN_ZJHZLiQi_V2_info(struct acquisition_data *acq_data);
 extern int protocol_ANDAN_EndressHauser_CA80_info(struct acquisition_data *acq_data);
 extern int protocol_ANDAN_HeBeiHuaHouTianCheng_E_info(struct acquisition_data *acq_data);
 extern int protocol_ANDAN_BJLiDa_info(struct acquisition_data *acq_data);
+extern int protocol_ANDAN_NJXinRuiPeng_New_info(struct acquisition_data *acq_data);
 
 extern int protocol_ZONGLIN_NJHongGuang_info(struct acquisition_data *acq_data);
 extern int protocol_ZONGLIN_ZJHZWeiLanD01_info(struct acquisition_data *acq_data);
@@ -2552,6 +2561,7 @@ extern int protocol_ZONGLIN_NJJuGe_New_info(struct acquisition_data *acq_data);
 extern int protocol_ZONGLIN_ZJHZLiQi_V2_info(struct acquisition_data *acq_data);
 extern int protocol_ZONGLIN_HeBeiHuaHouTianCheng_E_info(struct acquisition_data *acq_data);
 extern int protocol_ZONGLIN_BJLiDa_info(struct acquisition_data *acq_data);
+extern int protocol_ZONGLIN_NJXinRuiPeng_New_info(struct acquisition_data *acq_data);
 
 extern int protocol_others_TPTN_UASHaXi_NPW160_info_TN(struct acquisition_data *acq_data);
 extern int protocol_others_TPTN_UASHaXi_NPW160_info_TP(struct acquisition_data *acq_data);
@@ -2603,6 +2613,7 @@ extern int protocol_ZONGDAN_NJJuGe_New_info(struct acquisition_data *acq_data);
 extern int protocol_ZONGDAN_ZJHZLiQi_V2_info(struct acquisition_data *acq_data);
 extern int protocol_ZONGDAN_HeBeiHuaHouTianCheng_E_info(struct acquisition_data *acq_data);
 extern int protocol_ZONGDAN_BJLiDa_info(struct acquisition_data *acq_data);
+extern int protocol_ZONGDAN_NJXinRuiPeng_New_info(struct acquisition_data *acq_data);
 
 extern int protocol_water_YuXing_Modbus_info(struct acquisition_data *acq_data);
 extern int protocol_water_SZZhongXingModbus_info1(struct acquisition_data *acq_data);
@@ -2664,12 +2675,6 @@ extern int protocol_CEMS_AHWanYi_HeBei_SO2_info(struct acquisition_data *acq_dat
 extern int protocol_CEMS_AHWanYi_HeBei_NOx_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_AHWanYi_HeBei_O2_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_AHWanYi_HeBei_TSP_info(struct acquisition_data *acq_data);
-
-extern int protocol_CEMS_AHWanYi_HeBei_New_SO2_info(struct acquisition_data *acq_data);
-extern int protocol_CEMS_AHWanYi_HeBei_New_NOx_info(struct acquisition_data *acq_data);
-extern int protocol_CEMS_AHWanYi_HeBei_New_O2_info(struct acquisition_data *acq_data);
-extern int protocol_CEMS_AHWanYi_HeBei_New_TSP_info(struct acquisition_data *acq_data);
-
 extern int protocol_CEMS_BJXueDiLong_scs900uv_SO2_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_BJXueDiLong_scs900uv_NOx_info(struct acquisition_data *acq_data);
 extern int protocol_CEMS_BJXueDiLong_scs900uv_O2_info(struct acquisition_data *acq_data);
@@ -2933,6 +2938,7 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{102200,4,protocol_COD_ZeTian_GBhjt2005_info4},
 	{102200,5,protocol_COD_ZeTian_GBhjt2005_info5},
 	{102201,0,protocol_COD_ZJHZLiQi_V2_info},
+	{102202,0,protocol_COD_NJXinRuiPeng_New_info},
 	{102266,0,protocol_COD_HBKeruida_info},
 
 
@@ -2982,6 +2988,7 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{103087,0,protocol_ANDAN_GLYunJing_HeBei_info},
 	
 	{103111,0,protocol_ANDAN_ZJHZLiQi_V2_info},
+	{103112,0,protocol_ANDAN_NJXinRuiPeng_New_info},
 	{103120,0,protocol_ANDAN_HBKeruida_info},
 	{103121,0,protocol_ANDAN_YuXing_HeBei_info},
 	{103122,0,protocol_water_NJXinRuiPeng_info},
@@ -3045,6 +3052,7 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 
 	{104100,0,protocol_ZONGLIN_NJHongGuang2_info},
 	{104101,0,protocol_ZONGLIN_ZJHZLiQi_V2_info},
+	{104102,0,protocol_ZONGLIN_NJXinRuiPeng_New_info},
 	
 	{104200,0,protocol_ZONGLIN_ZeTian_GBhjt2005_status},
 	{104200,1,protocol_ZONGLIN_ZeTian_GBhjt2005_info1},
@@ -3092,6 +3100,7 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{105040,0,protocol_ZONGDAN_HeBeiHuaHouTianCheng_E_info},
 	{105041,0,protocol_ZONGDAN_BJLiDa_info},
 	{105042,0,protocol_ZONGDAN_GLYunJing_HeBei_info},
+	{105043,0,protocol_ZONGDAN_NJXinRuiPeng_New_info},
 	{105050,0,protocol_ZONGDAN_HBKeruida_info},
 	{105051,0,protocol_ZONGDAN_YuXing_HeBei_info},
 	{105052,0,protocol_water_NJXinRuiPeng_info},
@@ -3149,7 +3158,7 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{108020,1,protocol_CEMS_QDJiaMing_NOx_info},
 	{108020,2,protocol_CEMS_QDJiaMing_O2_info},
 	{108022,0,protocol_CEMS_AHWanYi_HeBei_SO2_info},
-        {108022,1,protocol_CEMS_AHWanYi_HeBei_NOx_info},
+    {108022,1,protocol_CEMS_AHWanYi_HeBei_NOx_info},
 	{108022,2,protocol_CEMS_AHWanYi_HeBei_O2_info},
 	{108022,3,protocol_CEMS_AHWanYi_HeBei_TSP_info},
 	{108023,0,protocol_CEMS_BJXueDiLong_scs900uv_SO2_info},
@@ -3286,12 +3295,6 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{108136,0,protocol_CEMS_HBManDeKe_V4_SO2_info},
 	{108136,1,protocol_CEMS_HBManDeKe_V4_NO_info},
 	{108136,2,protocol_CEMS_HBManDeKe_V4_O2_info},
-
-	{108140,0,protocol_CEMS_AHWanYi_HeBei_New_SO2_info},
-        {108140,1,protocol_CEMS_AHWanYi_HeBei_New_NOx_info},
-	{108140,2,protocol_CEMS_AHWanYi_HeBei_New_O2_info},
-	{108140,3,protocol_CEMS_AHWanYi_HeBei_New_TSP_info},
-	
 	{108157,0,protocol_TSP_AnRomhXin_LSS2004_LSS2014_info},
 	{108158,0,protocol_O2_AnRongXin_ARX5100_info},
 	{108160,0,protocol_CEMS_HBManDeKe_NOx_info2},
@@ -3314,6 +3317,7 @@ static struct rtu_instrinfo_protocols instrinfo_protocols[]={
 	{108171,1,protocol_CEMS_QDZhongPing_NO_info},
 	{108171,2,protocol_CEMS_QDZhongPing_O2_info},
 	{108172,0,protocol_TSP_QDZhongPing_LRCD2000WV_info},
+
 	{108176,0,protocol_CEMS_BJHangTianYiLai_HeiBei_STATUS_info},
 	{108176,1,protocol_CEMS_BJHangTianYiLai_HeiBei_SO2_info},
 	{108176,2,protocol_CEMS_BJHangTianYiLai_HeiBei_NO2_info},
