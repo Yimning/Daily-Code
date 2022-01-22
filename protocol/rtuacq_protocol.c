@@ -482,7 +482,10 @@ void NEED_ERROR_CACHE_ONE_POLCODE_VALUE(struct acquisition_data *acq_data,int ar
 	struct acquisition_data acq_data_bak;
 
 	if(!acq_data) return;
-	if(cnt_max<=0 && cnt_max>=20) cnt_max=5;
+	if(cnt_max<=0)
+		cnt_max=20;
+	else if(cnt_max>=50)
+		cnt_max=50;
 
 	memset(&acq_data_bak,0,sizeof(struct acquisition_data));
 	get_acq_data_by_devname(DEV_NAME(acq_data),&acq_data_bak);

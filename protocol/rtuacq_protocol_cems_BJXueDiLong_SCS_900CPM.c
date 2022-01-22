@@ -98,7 +98,7 @@ int protocol_CEMS_BJXueDiLong_SCS900CPM(struct acquisition_data *acq_data)
 	cmd = 0x03;
 	dataType = FLOAT_ABCD ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,0x0D,0x02);
+	size=modbus_pack(com_tbuf,devaddr,cmd,0x0C,0x02);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong SCS_900CPM CEMS SEND2:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
@@ -256,6 +256,5 @@ int protocol_CEMS_BJXueDiLong_SCS900CPM_info(struct acquisition_data *acq_data)
 		acq_data->acq_status = ACQ_OK;
 	else 
 		acq_data->acq_status = ACQ_ERR;
-	//NEED_ERROR_CACHE(acq_data, 10);  //del by Yimning 20210824
 	return arg_n;
 }

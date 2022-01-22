@@ -359,6 +359,8 @@ int protocol_CEMS_HBManDeKe1_DCEM3000_info(struct acquisition_data *acq_data)
 		val = getInt16Value(p, 71, INT_AB);
 		t3 = getTimeValue(BCD(val),BCD(p[74]), BCD(p[76]), BCD(p[78]), BCD(p[80]), 0);
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
+
+		
 		
 		status = 0;
 	}

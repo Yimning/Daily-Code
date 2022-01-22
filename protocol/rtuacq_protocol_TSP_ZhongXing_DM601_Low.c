@@ -182,7 +182,6 @@ int protocol_TSP_ZhongXing_DM601_Low_info(struct acquisition_data *acq_data)
 
 	t1=0;//1577808000; // 2020-01-01 00:00:00
 	acqdata_set_value_flag(acq_data,"a34013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
 	status=1;
 	cmd = 0x03;
 	regpos = 0x64;
@@ -239,7 +238,7 @@ int protocol_TSP_ZhongXing_DM601_Low_info(struct acquisition_data *acq_data)
 	
 	cmd = 0x03;
 	regpos = 0xC8;
-	regcnt = 0x1C;
+	regcnt = 0x2C;
 	dataType = FLOAT_ABCD ;
 	t1 = 0 ;
 	sleep(1);
@@ -296,60 +295,33 @@ int protocol_TSP_ZhongXing_DM601_Low_info(struct acquisition_data *acq_data)
 		valf = getFloatValue(p, 55, dataType);
 		acqdata_set_value_flag(acq_data,"i13015",UNIT_MINUTE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		status=0;
-	}
-	else
-	{
-		status = 1;
-	}
-
-#if 0
-	cmd = 0x03;
-	regpos = 0xE4;
-	regcnt = 0x10;
-	dataType = FLOAT_ABCD ;
-	t1 = 0 ;
-	sleep(1);
-	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"ZhongXing DM601 Low TSP INFO SEND2:",com_tbuf,size);
-	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
-	sleep(1);
-	memset(com_rbuf,0,sizeof(com_rbuf));
-	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("ZhongXing DM601 Low TSP protocol,INFO 2: read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("ZhongXing DM601 Low TSP data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"ZhongXing DM601 Low TSP INFO RECV2:",com_rbuf,size);
-	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
-	if(p!=NULL)
-	{
-		valf = getFloatValue(p, 3, dataType);  //OUTPUT 0xFFFFFFFF
+		valf = getFloatValue(p, 59, dataType);  //OUTPUT 0xFFFFFFFF
 		//acqdata_set_value_flag(acq_data,"i13014",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 
-		valf = getFloatValue(p, 7, dataType);
+		valf = getFloatValue(p, 63, dataType);
 		//acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf = getFloatValue(p, 11, dataType);
+		valf = getFloatValue(p, 67, dataType);
 		//acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 
-		valf = getFloatValue(p, 15, dataType);
+		valf = getFloatValue(p, 71, dataType);
 		//acqdata_set_value_flag(acq_data,"i13016",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 		
-		valf = getFloatValue(p, 19, dataType);
+		valf = getFloatValue(p, 75, dataType);
 		//acqdata_set_value_flag(acq_data,"i13017",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 
-		valf = getFloatValue(p, 23, dataType);
+		valf = getFloatValue(p, 79, dataType);
 		//acqdata_set_value_flag(acq_data,"i13018",UNIT_L,valf,INFOR_ARGUMENTS,&arg_n);
 
 
-		valf = getFloatValue(p, 27, dataType);
+		valf = getFloatValue(p, 83, dataType);
 		//acqdata_set_value_flag(acq_data,"i13019",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		
-		valf = getFloatValue(p, 31, dataType);
+		valf = getFloatValue(p, 87, dataType);
 		//acqdata_set_value_flag(acq_data,"i13020",UNIT_L_M,valf,INFOR_ARGUMENTS,&arg_n);
 
 		status=0;
@@ -358,7 +330,7 @@ int protocol_TSP_ZhongXing_DM601_Low_info(struct acquisition_data *acq_data)
 	{
 		status = 1;
 	}
-#endif
+	
 	read_system_time(acq_data->acq_tm);
 
 	if(status == 0)

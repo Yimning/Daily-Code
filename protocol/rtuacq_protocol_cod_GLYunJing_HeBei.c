@@ -245,7 +245,7 @@ static float  COD_GLYunJing_HeBei_Stay = 0;
 			case 8:	flag='M';break;
 			default:	flag='N';COD_GLYunJing_HeBei_Stay = valf;break;
 		}
-		if(flag == 'C')
+		if((flag == 'C') ||(flag == 'M') ||(flag == 'D') )
 			valf = COD_GLYunJing_HeBei_Stay;
 		
 		status=0;

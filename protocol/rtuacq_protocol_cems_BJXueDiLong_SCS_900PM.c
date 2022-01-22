@@ -38,7 +38,7 @@ RX2:01 03 04
 DataType and Analysis:
 	(FLOAT_CDAB) 5D 5D  3C  4B   = 0.0124
 */
-static char CEMS_BJXueDiLong_SCS900PM_Mark ='N';
+
 int protocol_CEMS_BJXueDiLong_SCS900PM(struct acquisition_data *acq_data)
 {
 	int status=0;
@@ -128,10 +128,8 @@ int protocol_CEMS_BJXueDiLong_SCS900PM(struct acquisition_data *acq_data)
 	acqdata_set_value_orig(acq_data,"a34013",UNIT_MG_M3,smoke,orig,&arg_n);
 	acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,0,&arg_n);
 
-	if(status == 0){
+	if(status == 0)
 		acq_data->acq_status = ACQ_OK;
-		acq_data->dev_stat = CEMS_BJXueDiLong_SCS900PM_Mark;
-	}
 	else 
 		acq_data->acq_status = ACQ_ERR;
 	NEED_ERROR_CACHE(acq_data, 10);
@@ -193,94 +191,53 @@ int protocol_CEMS_BJXueDiLong_SCS900PM_info(struct acquisition_data *acq_data)
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO 1: read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("BJXueDiLong SCS_900PM data1",com_rbuf,size);
+	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("BJXueDiLong SCS_900PM data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS_900PM INFO RECV1:",com_rbuf,size);
 	if((size>=6)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
 	{
 	        val = com_rbuf[3];
-		if(val == 0)
-		{
-			acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
-			CEMS_BJXueDiLong_SCS900PM_Mark = 'N';
+			SYSLOG_DBG("COME1 : %d\n",val);
+		switch(val){
+        		case 0:
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				break;
+        		case 1:
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);
+				break;
 		}
-		else {
-			acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);
-			CEMS_BJXueDiLong_SCS900PM_Mark = 'D';
-		}
-                 status=0;
-	}
-	else 
-	{
-		status =1;
+		status=0;
 	}
 
 	sleep(1);
 	cmd = 0x01;
 	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,0x01,0x01);
+	size=modbus_pack(com_tbuf,devaddr,cmd,0x01,0x1);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong SCS_900PM INFO SEND2:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO 2: read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("BJXueDiLong SCS_900PM data2",com_rbuf,size);
+	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("BJXueDiLong SCS_900PM data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS_900PM INFO RECV2:",com_rbuf,size);
 	if((size>=6)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
 	{
 	        val = com_rbuf[3];
+		SYSLOG_DBG("COME2 : %d\n",val);
 		switch(val){
         		case 0:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);CEMS_BJXueDiLong_SCS900PM_Mark = 'N';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				break;
         		case 1:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,1,INFOR_STATUS,&arg_n);CEMS_BJXueDiLong_SCS900PM_Mark = 'M';
-				break;
-			default:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);CEMS_BJXueDiLong_SCS900PM_Mark = 'N';
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,1,INFOR_STATUS,&arg_n);
 				break;
 		}
 		status=0;
-	}
-	else 
-	{
-		status =1;   
-	}
-
-	sleep(1);
-	cmd = 0x01;
-	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,0x03,0x01);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong SCS_900PM INFO SEND3:",com_tbuf,size);
-	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
-	sleep(1);
-	memset(com_rbuf,0,sizeof(com_rbuf));
-	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO3 : read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("BJXueDiLong SCS_900PM data3",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS_900PM INFO RECV3:",com_rbuf,size);
-	if((size>=6)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
-	{
-	        val = com_rbuf[3];
-		switch(val){
-        		case 0:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);CEMS_BJXueDiLong_SCS900PM_Mark = 'N';
-				break;
-        		case 1:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,5,INFOR_STATUS,&arg_n);CEMS_BJXueDiLong_SCS900PM_Mark = 'z';
-				break;
-			default:
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);CEMS_BJXueDiLong_SCS900PM_Mark = 'N';
-				break;
-		}
-		status=0;
-	}
-	else 
+	}else 
 	{
 		status =1;
 	}
-
 
 	if(status == 0)
 		acq_data->acq_status = ACQ_OK;
@@ -322,7 +279,6 @@ int protocol_CEMS_BJXueDiLong_SCS900PM_info1(struct acquisition_data *acq_data)
 	int cmd=0;
 	int val=0;
 	float valf = 0;
-	int range = 0;
 	
 	struct tm timer;
 	time_t t1,t2,t3;
@@ -340,61 +296,41 @@ int protocol_CEMS_BJXueDiLong_SCS900PM_info1(struct acquisition_data *acq_data)
 
 	t1=0;//1577808000; // 2020-01-01 00:00:00
 	acqdata_set_value_flag(acq_data,"a34013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
-
-	cmd = 0x01;
+	sleep(1);
+	cmd = 0x03;
 	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,0x06,0x01);
+	size=modbus_pack(com_tbuf,devaddr,cmd,0x0A,0x10);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong SCS_900PM INFO SEND3:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO3: read device %s , size=%d\n",DEV_NAME(acq_data),size);
-	SYSLOG_DBG_HEX("BJXueDiLong SCS_900PM data3",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS_900PM INFO RECV3:",com_rbuf,size);
-	if((size>=6)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
-	{
-               range = com_rbuf[3];
-	 	if(val == 1)
-			range = 1;
-		else 
-			range = 0;
-		
-		status=0;
-	}
-
-	sleep(1);
-	cmd = 0x03;
-	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,cmd,0x0A,0x10);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BJXueDiLong SCS_900PM INFO SEND4:",com_tbuf,size);
-	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
-	sleep(1);
-	memset(com_rbuf,0,sizeof(com_rbuf));
-	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
-	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO 4: read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG("BJXueDiLong SCS_900PM protocol,INFO : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("BJXueDiLong SCS_900PM data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS_900PM INFO RECV4:",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BJXueDiLong SCS_900PM INFO RECV3:",com_rbuf,size);
 	if((size>=37)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
 	{
 		valf = getFloatValue(com_rbuf, 3, dataType);
+		//data->i13012 = valf
+		//SYSLOG_DBG("valf%f\n",valf);
 		acqdata_set_value_flag(acq_data,"i13012",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		valf= getFloatValue(com_rbuf, 19, dataType);
+		//data->i13026 = valf;
 		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		valf = getFloatValue(com_rbuf, 23, dataType);
+		//data->i13022 = valf;
 		acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
-		if(range==0)
-			valf = getFloatValue(com_rbuf, 27, dataType);
-		else 
-			valf = getFloatValue(com_rbuf, 31, dataType);
+
+		valf = getFloatValue(com_rbuf, 27, dataType);
+		//data->i13013 = valf;
+		//SYSLOG_DBG("valf3013%f\n",valf);
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 
 		status=0;
 	}
-	else 
-		status = 1;
+	else status = 1;
 
 	if(status == 0)
 		acq_data->acq_status = ACQ_OK;

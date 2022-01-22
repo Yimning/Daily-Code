@@ -33,6 +33,7 @@ int protocol_others_TPTN_UASHaXi_NPW160(struct acquisition_data *acq_data)
 	int devaddr=0;
 	unsigned int cmd=0;
 	MODBUS_DATA_TYPE dataType;
+	char *p=NULL;
 
 	struct acquisition_ctrl *acq_ctrl;
    	struct modbus_arg *modbusarg;
@@ -55,10 +56,11 @@ int protocol_others_TPTN_UASHaXi_NPW160(struct acquisition_data *acq_data)
 	SYSLOG_DBG("UASHaXi NPW-160 TPTN protocol,TPTN 1: read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("UASHaXi NPW-160 TPTN data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"UASHaXi NPW-160 TPTN RECV1:",com_rbuf,size);
-	if((size>=13)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, 0x04);
+	if(p!=NULL)
 	{
-		tn=getFloatValue(com_rbuf, 3, dataType);
-		tp=getFloatValue(com_rbuf, 7, dataType);
+		tn=getFloatValue(p, 3, dataType);
+		tp=getFloatValue(p, 7, dataType);
 		
 		status=0;
 	}
@@ -80,10 +82,11 @@ int protocol_others_TPTN_UASHaXi_NPW160(struct acquisition_data *acq_data)
 	SYSLOG_DBG("UASHaXi NPW-160 TPTN protocol,TPTN 2: read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("UASHaXi NPW-160 TPTN data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"UASHaXi NPW-160 TPTN RECV2:",com_rbuf,size);
-	if((size>=13)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, 0x04);
+	if(p!=NULL)
 	{
-		tn_orig=getFloatValue(com_rbuf, 3, dataType);
-		tp_orig=getFloatValue(com_rbuf, 7, dataType);
+		tn_orig=getFloatValue(p, 3, dataType);
+		tp_orig=getFloatValue(p, 7, dataType);
 		
 		status=0;
 	}
@@ -122,6 +125,7 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TN(struct acquisition_data *acq_dat
 	unsigned int cmd=0;
 	union uf f;
 	MODBUS_DATA_TYPE dataType;
+	char *p=NULL;
 
 	struct tm timer;
 	time_t t1,t2,t3;
@@ -152,9 +156,10 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TN(struct acquisition_data *acq_dat
 	SYSLOG_DBG("UASHaXi NPW-160 TN STATUS protocol,STATUS : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("UASHaXi NPW-160 TN STATUS data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"UASHaXi NPW-160 TN STATUS RECV:",com_rbuf,size);
-	if((size>=17)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, 0x06);
+	if(p!=NULL)
 	{
-		val=getUInt16Value(com_rbuf, 5, INT_AB);
+		val=getUInt16Value(p, 5, INT_AB);
 		if(val==0)
 		{
 			acqdata_set_value_flag(acq_data,"i12101",UNIT_NONE,0,INFOR_STATUS,&arg_n);
@@ -184,14 +189,14 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TN(struct acquisition_data *acq_dat
 			acqdata_set_value_flag(acq_data,"i12101",UNIT_NONE,4,INFOR_STATUS,&arg_n);
 			acqdata_set_value_flag(acq_data,"i12102",UNIT_NONE,1,INFOR_STATUS,&arg_n);
 			
-			val=getUInt16Value(com_rbuf, 7, INT_AB);
+			val=getUInt16Value(p, 7, INT_AB);
 			if(((val&0x02)==0x02) || ((val&0x04)==0x04))
 			{
 				acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,5,INFOR_STATUS,&arg_n);
 			}
 			else
 			{
-				val=getUInt16Value(com_rbuf, 9, INT_AB);
+				val=getUInt16Value(p, 9, INT_AB);
 				if((val&0x01)==0x01)
 				{
 					acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,3,INFOR_STATUS,&arg_n);
@@ -202,7 +207,7 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TN(struct acquisition_data *acq_dat
 				}
 				else
 				{
-					val=getUInt16Value(com_rbuf, 11, INT_AB);
+					val=getUInt16Value(p, 11, INT_AB);
 					if(((val&0x01)==0x01) || ((val&0x02)==0x02) || ((val&0x04)==0x04) || ((val&0x08)==0x08) || ((val&0x10)==0x10))
 					{
 						acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,1,INFOR_STATUS,&arg_n);
@@ -213,7 +218,7 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TN(struct acquisition_data *acq_dat
 					}
 					else
 					{
-						val=getUInt16Value(com_rbuf, 13, INT_AB);
+						val=getUInt16Value(p, 13, INT_AB);
 						if(((val&0x02)==0x02) || ((val&0x08)==0x08) || ((val&0x20)==0x20))
 						{
 							acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,7,INFOR_STATUS,&arg_n);
@@ -251,24 +256,25 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TN(struct acquisition_data *acq_dat
 	SYSLOG_DBG("UASHaXi NPW-160 TN INFO protocol,INFO: read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("UASHaXi NPW-160 TN INFO data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"UASHaXi NPW-160 TN INFO RECV:",com_rbuf,size);
-	if((size>=155)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, 0x4B);
+	if(p!=NULL)
 	{
-		valf=getFloatValue(com_rbuf, 3, dataType);
+		valf=getFloatValue(p, 3, dataType);
 		acqdata_set_value_flag(acq_data,"i13108",UNIT_MG_L,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 49, dataType);
+		valf=getFloatValue(p, 49, dataType);
 		acqdata_set_value_flag(acq_data,"i13120",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 53, dataType);
+		valf=getFloatValue(p, 53, dataType);
 		acqdata_set_value_flag(acq_data,"i13119",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 89, dataType);
+		valf=getFloatValue(p, 89, dataType);
 		acqdata_set_value_flag(acq_data,"i13115",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 145, dataType);
+		valf=getFloatValue(p, 145, dataType);
 		acqdata_set_value_flag(acq_data,"i13004",UNIT_0C,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 149, dataType);
+		valf=getFloatValue(p, 149, dataType);
 		acqdata_set_value_flag(acq_data,"i13005",UNIT_MINUTE,valf,INFOR_ARGUMENTS,&arg_n);
 		
 		status=0;
@@ -298,6 +304,7 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TP(struct acquisition_data *acq_dat
 	unsigned int cmd=0;
 	union uf f;
 	MODBUS_DATA_TYPE dataType;
+	char *p=NULL;
 
 	struct tm timer;
 	time_t t1,t2,t3;
@@ -328,9 +335,10 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TP(struct acquisition_data *acq_dat
 	SYSLOG_DBG("UASHaXi NPW-160 TP STATUS protocol,STATUS : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("UASHaXi NPW-160 TP STATUS data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"UASHaXi NPW-160 TP STATUS RECV:",com_rbuf,size);
-	if((size>=17)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, 0x06);
+	if(p!=NULL)
 	{
-		val=getUInt16Value(com_rbuf, 5, INT_AB);
+		val=getUInt16Value(p, 5, INT_AB);
 		if(val==0)
 		{
 			acqdata_set_value_flag(acq_data,"i12101",UNIT_NONE,0,INFOR_STATUS,&arg_n);
@@ -360,14 +368,14 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TP(struct acquisition_data *acq_dat
 			acqdata_set_value_flag(acq_data,"i12101",UNIT_NONE,4,INFOR_STATUS,&arg_n);
 			acqdata_set_value_flag(acq_data,"i12102",UNIT_NONE,1,INFOR_STATUS,&arg_n);
 			
-			val=getUInt16Value(com_rbuf, 7, INT_AB);
+			val=getUInt16Value(p, 7, INT_AB);
 			if(((val&0x02)==0x02) || ((val&0x04)==0x04))
 			{
 				acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,5,INFOR_STATUS,&arg_n);
 			}
 			else
 			{
-				val=getUInt16Value(com_rbuf, 9, INT_AB);
+				val=getUInt16Value(p, 9, INT_AB);
 				if((val&0x01)==0x01)
 				{
 					acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,3,INFOR_STATUS,&arg_n);
@@ -378,7 +386,7 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TP(struct acquisition_data *acq_dat
 				}
 				else
 				{
-					val=getUInt16Value(com_rbuf, 11, INT_AB);
+					val=getUInt16Value(p, 11, INT_AB);
 					if(((val&0x01)==0x01) || ((val&0x02)==0x02) || ((val&0x04)==0x04) || ((val&0x08)==0x08) || ((val&0x10)==0x10))
 					{
 						acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,1,INFOR_STATUS,&arg_n);
@@ -389,7 +397,7 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TP(struct acquisition_data *acq_dat
 					}
 					else
 					{
-						val=getUInt16Value(com_rbuf, 13, INT_AB);
+						val=getUInt16Value(p, 13, INT_AB);
 						if(((val&0x02)==0x02) || ((val&0x08)==0x08) || ((val&0x20)==0x20))
 						{
 							acqdata_set_value_flag(acq_data,"i12103",UNIT_NONE,7,INFOR_STATUS,&arg_n);
@@ -427,24 +435,25 @@ int protocol_others_TPTN_UASHaXi_NPW160_info_TP(struct acquisition_data *acq_dat
 	SYSLOG_DBG("UASHaXi NPW-160 TP INFO protocol,INFO: read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("UASHaXi NPW-160 TP INFO data",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"UASHaXi NPW-160 TP INFO RECV:",com_rbuf,size);
-	if((size>=155)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==cmd))
+	p=modbus_crc_check(com_rbuf, size, devaddr, cmd, 0x4B);
+	if(p!=NULL)
 	{
-		valf=getFloatValue(com_rbuf, 5, dataType);
+		valf=getFloatValue(p, 5, dataType);
 		acqdata_set_value_flag(acq_data,"i13108",UNIT_MG_L,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 61, dataType);
+		valf=getFloatValue(p, 61, dataType);
 		acqdata_set_value_flag(acq_data,"i13120",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 65, dataType);
+		valf=getFloatValue(p, 65, dataType);
 		acqdata_set_value_flag(acq_data,"i13119",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 93, dataType);
+		valf=getFloatValue(p, 93, dataType);
 		acqdata_set_value_flag(acq_data,"i13115",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 145, dataType);
+		valf=getFloatValue(p, 145, dataType);
 		acqdata_set_value_flag(acq_data,"i13004",UNIT_0C,valf,INFOR_ARGUMENTS,&arg_n);
 
-		valf=getFloatValue(com_rbuf, 149, dataType);
+		valf=getFloatValue(p, 149, dataType);
 		acqdata_set_value_flag(acq_data,"i13005",UNIT_MINUTE,valf,INFOR_ARGUMENTS,&arg_n);
 		
 		status=0;

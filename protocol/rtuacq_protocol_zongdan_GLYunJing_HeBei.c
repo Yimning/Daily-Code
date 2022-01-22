@@ -144,7 +144,7 @@ static float  ZONGDAN_GLYunJing_HeBei_Stay = 0;
 			case 8:	flag='M';break;
 			default:	flag='N';ZONGDAN_GLYunJing_HeBei_Stay = valf;break;
 		}
-		if(flag == 'C')
+		if((flag == 'C') ||(flag == 'M') ||(flag == 'D') )
 			valf = ZONGDAN_GLYunJing_HeBei_Stay;
 		
 		status=0;

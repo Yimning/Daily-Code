@@ -28,11 +28,15 @@ int protocol_PH_BoKeSi_301M(struct acquisition_data *acq_data)
 	char com_tbuf[8]={0};
 	int size=0;
 	float ph=0,temp=0;
-	int val=0;
 	int ret=0;
 	int arg_n=0;
 	int devaddr=0;
-
+	int cmd = 0,regpos = 0,regcnt = 0;
+	char *p = NULL;
+	int val=0;
+	float valf = 0;
+	
+	MODBUS_DATA_TYPE dataType;
 	struct acquisition_ctrl *acq_ctrl;
    	struct modbus_arg *modbusarg;
 
@@ -41,10 +45,13 @@ int protocol_PH_BoKeSi_301M(struct acquisition_data *acq_data)
 	modbusarg=&acq_ctrl->modbusarg_running;
 
 	devaddr=modbusarg->devaddr&0xffff;
-
+	cmd = 0x03;
+	regpos = 0x01;
+	regcnt = 0x02;
+	dataType = INT_AB ;
 	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,0x03,0x01,0x02);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BoKeSi 301M ph SEND:",com_tbuf,size);
+	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"BoKeSi 301M PH SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 
@@ -52,17 +59,14 @@ int protocol_PH_BoKeSi_301M(struct acquisition_data *acq_data)
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
 	SYSLOG_DBG("BoKeSi 301M ph protocol,PH : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("BoKeSi 301M ph data",com_rbuf,size);
-	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BoKeSi 301M ph RECV:",com_rbuf,size);
-	if((size>=9)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
-	{
-		val=com_rbuf[3];
-		val<<=8;
-		val+=com_rbuf[4];
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"BoKeSi 301M PH RECV:",com_rbuf,size);
+	p=modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
+	if(p!=NULL)
+	{  
+ 		val = getInt16Value(p, 3, dataType);
 		ph=val/1000.0;
 
-		val=com_rbuf[5];
-		val<<=8;
-		val+=com_rbuf[6];
+		val = getInt16Value(p, 5, dataType);
 		temp=val/10.0;
 		status=0;
 	}

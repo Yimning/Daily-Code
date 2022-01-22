@@ -168,8 +168,8 @@ int protocol_sampler_HuiHuan_DEK1302_info(struct acquisition_data *acq_data)
 			val = 0;
 		else 
 			val = 1;
-		
-		acqdata_set_value(acq_data,"i42001",UNIT_NONE,val,&arg_n);
+
+		acqdata_set_value_flag(acq_data,"i42001",UNIT_NONE,val,INFOR_STATUS,&arg_n);
 		
 		status=0;
 	}
@@ -199,7 +199,7 @@ int protocol_sampler_HuiHuan_DEK1302_info(struct acquisition_data *acq_data)
 
 
 	sleep(1);
-	memset(com_tbuf,0,sizeof(com_tbuf));
+	memset(com_tbuf,0,sizeof(com_tbuf)); 
 	strcpy(com_tbuf,"%01#RDD0061100611**\r");
 	size=strlen(com_tbuf);
 	LOG_WRITE_STR(DEV_NAME(acq_data),0,"HuiHuan DEK1302 SAMPLER INFO SEND3:",com_tbuf,size);

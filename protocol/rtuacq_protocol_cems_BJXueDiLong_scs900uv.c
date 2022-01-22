@@ -611,6 +611,17 @@ static float setValue_TSP_BJXueDiLong_scs900uv(struct modbus_arg *modbusarg, flo
 	return 0;
 }
 
+/*
+Author:Yimning
+Time:2021.12.09 Thur.
+Description:protocol_PLC_BJXueDiLong_scs900uv
+TX:01  03  0F  A4  00  05  C7  3E
+RX:01 03 0A 40 CD 00 00 15 9A 15 9A 6A 00 7E AD
+DataType and Analysis:
+	(INT_AB) 6A 00  = 27136
+*/
+
+
 int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 {
 	int status=0;
@@ -702,7 +713,15 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 		val=p[11];
 		val<<=8;
 		val+=p[12];
-		valf[4]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a01013");
+
+		modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a01013");
+		
+		if(modbus_polcode_arg_tmp!=NULL && modbus_polcode_arg_tmp->enableFlag==1 && modbus_polcode_arg_tmp->unit == UNIT_KPA){
+			atm_press=PLCtoValue(modbusarg, 5530, 27648, val, "a01013");
+			valf[4]= atm_press*1000;
+		}
+		else 
+			valf[4]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a01013");
 
 		modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a01013");
 
@@ -730,6 +749,7 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 		status=1;
 		flag[0]='D';
 	}
+
 
 	sleep(1);
 	startaddr=44019;
