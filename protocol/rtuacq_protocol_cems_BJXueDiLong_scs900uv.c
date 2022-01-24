@@ -638,7 +638,7 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 	unsigned int devaddr=0,cmd=0,startaddr=0,cnt=0;
 	char *p=NULL;
 	int smoke_flag;
-	float speed,atm_press,PTC;
+	float speed,atm_press,PTC,cal_press_Pa=0;
 	char flag[2]={0};
 
 	struct acquisition_ctrl *acq_ctrl;
@@ -717,11 +717,13 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 		modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a01013");
 		
 		if(modbus_polcode_arg_tmp!=NULL && modbus_polcode_arg_tmp->enableFlag==1 && modbus_polcode_arg_tmp->unit == UNIT_KPA){
-			atm_press=PLCtoValue(modbusarg, 5530, 27648, val, "a01013");
-			valf[4]= atm_press*1000;
+			cal_press_Pa=PLCtoValue(modbusarg, 5530, 27648, val, "a01013");
+			valf[4]= cal_press_Pa*1000;
 		}
-		else 
+		else{
 			valf[4]=setValue_TSP_BJXueDiLong_scs900uv(modbusarg,val,"a01013");
+			cal_press_Pa = valf[4];
+		}
 
 		modbus_polcode_arg_tmp=find_modbus_polcode_arg_by_polcode(modbusarg->polcode_arg,modbusarg->array_count,"a01013");
 
@@ -731,8 +733,8 @@ int protocol_PLC_BJXueDiLong_scs900uv(struct acquisition_data *acq_data)
 				modbus_polcode_arg_tmp->alarmMax,modbus_polcode_arg_tmp->alarmMin,val);
 		}
 
-		if(PTC>0 && (valf[3]+273)>0 && (valf[4]+atm_press)>0)
-			speed=PTC*valf[2]*sqrt(((valf[3]+273)/273)*(101325/(valf[4]+atm_press))*(2/1.2928));
+		if(PTC>0 && (valf[3]+273)>0 && (cal_press_Pa+atm_press)>0)
+			speed=PTC*valf[2]*sqrt(((valf[3]+273)/273)*(101325/(cal_press_Pa+atm_press))*(2/1.2928));
 		else
 			speed=0;
 
