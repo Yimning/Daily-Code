@@ -316,7 +316,7 @@ int protocol_ANDAN_NJXinRuiPeng_New_info(struct acquisition_data *acq_data)
 		acqdata_set_value_flag(acq_data,"i13130",UNIT_MG_L,valf,INFOR_ARGUMENTS,&arg_n);
 
 		status=0;
-	}
+	} 
 	
 	read_system_time(acq_data->acq_tm);
 
