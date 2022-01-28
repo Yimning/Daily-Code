@@ -104,8 +104,8 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 			speed=0;
 #endif
 		speed=PTC*sqrt(fabs(valf[2])*2/SAD);
-
-		
+  
+  		
 		so2 = getFloatValue(p, 29, dataType);
 
 		no = getFloatValue(p, 33, dataType);
