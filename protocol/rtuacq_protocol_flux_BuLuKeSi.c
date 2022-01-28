@@ -25,7 +25,7 @@ Author:Yimning
 Email:1148967988@qq.com
 Create Time:2021.09.13 Mon.
 Description:protocol_FLUX_BuLuKeSi
-TX:01 03 05 09 00 06 15 06 
+TX:01 03 05 0F 00 06 15 06 
 RX:01 03 0C 41 43 00 00 00 00 00 02 00 00 19 64 46 B2
 
 DataType and Analysis:
@@ -58,7 +58,7 @@ int protocol_FLUX_BuLuKeSi(struct acquisition_data *acq_data)
 	devaddr=modbusarg->devaddr&0xffff;
 	
 	cmd = 0x03;
-	regpos = 0x0509;
+	regpos = 0x050F;
 	regcnt = 0x06;
 	dataType = FLOAT_ABCD ;
 	

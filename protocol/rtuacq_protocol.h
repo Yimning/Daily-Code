@@ -1121,6 +1121,7 @@ int protocol_TSP_SDXinZe_SDUST100(struct acquisition_data *acq_data);
 int protocol_CEMS_SDXinZe_V2(struct acquisition_data *acq_data);
 int protocol_PLC_HongRuiDe(struct acquisition_data *acq_data);
 int protocol_CEMS_RuiAnRA8000(struct acquisition_data *acq_data);
+int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data);
 int protocol_TSP_AnRomhXin_LSS2004_LSS2014(struct acquisition_data *acq_data);
 int protocol_O2_AnRongXin_ARX5100(struct acquisition_data *acq_data);
 int protocol_PLC_AnRomhXin_APT2000(struct acquisition_data *acq_data);
@@ -2139,7 +2140,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8134,protocol_CEMS_RuiAnRA8000},
 	{8135,protocol_CEMS_BJXueDiLong_MODEL4000_1},
 	{8136,protocol_CEMS_HBManDeKe_NO_V4},
-
+	{8156,protocol_PLC_BJXueDiLong_Model1080_FND0305},
 	{8157,protocol_TSP_AnRomhXin_LSS2004_LSS2014},
 	{8158,protocol_O2_AnRongXin_ARX5100},
 	{8159,protocol_PLC_AnRomhXin_APT2000},

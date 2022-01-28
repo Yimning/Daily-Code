@@ -16385,6 +16385,33 @@ rtuacq_protocol_PLC_AnRongXin_PAT2000.o .depend : \
  /opt/rtu_t36z1/src/rtu/include/commonstinfo.h \
  /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
  /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h
+rtuacq_protocol_PLC_BJXueDiLong_Model1080_FND0305.o .depend : \
+ rtuacq_protocol_PLC_BJXueDiLong_Model1080_FND0305.c \
+ /opt/rtu_t36z1/src/rtu/include/common.h \
+ /opt/rtu_t36z1/src/rtu/../cli/command.h \
+ /opt/rtu_t36z1/src/rtu/../cli/vector.h \
+ /opt/rtu_t36z1/src/rtu/../cli/vty.h \
+ /opt/rtu_t36z1/src/rtu/../cli/zebra.h \
+ /opt/rtu_t36z1/src/rtu/../cli/module.h \
+ /opt/rtu_t36z1/src/rtu/../cli/command.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/include/common.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/include/config.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/include/control.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_eth.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_rtc.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_ai.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_di.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_do.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_ops_api.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_mcu.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_api.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_network.h \
+ /opt/rtu_t36z1/src/rtu/include/instruments.h \
+ /opt/rtu_t36z1/src/rtu/include/commonstinfo.h \
+ /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
+ /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h
 rtuacq_protocol_PLC_BJXueDiLong_S7_200_.o .depend : \
  rtuacq_protocol_PLC_BJXueDiLong_S7_200_.c \
  /opt/rtu_t36z1/src/rtu/include/common.h \
