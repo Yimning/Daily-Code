@@ -85,7 +85,7 @@ static int getHjt212PolcodeValf(char *valstr,char *cemspol,float *valf)
    
    strcpy(cems_polcode,cemspol);
    memset(polRtdstr,0,sizeof(polRtdstr));
-   if(strstr(cems_polcode,"z"))
+   if((strcmp(cems_polcode,"a00000z"))&&strstr(cems_polcode,"z"))
    {
        cems_polcode[strlen(cems_polcode)-1]='\0'; //del 'z'
    	   sprintf(polRtdstr,"%s-ZsRtd",cems_polcode);
