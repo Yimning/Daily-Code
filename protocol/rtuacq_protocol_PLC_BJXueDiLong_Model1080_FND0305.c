@@ -165,7 +165,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 	acqdata_set_value(acq_data,"a21002a",UNIT_MG_M3,nox,&arg_n);
 	acqdata_set_value(acq_data,"a21002",UNIT_MG_M3,nox,&arg_n);
 	acqdata_set_value(acq_data,"a21002z",UNIT_MG_M3,0,&arg_n);
-
+  
 	acqdata_set_value(acq_data,"a21003a",UNIT_MG_M3,no,&arg_n);
 	acqdata_set_value(acq_data,"a21003",UNIT_MG_M3,no,&arg_n);
 	acqdata_set_value(acq_data,"a21003z",UNIT_MG_M3,0,&arg_n);
