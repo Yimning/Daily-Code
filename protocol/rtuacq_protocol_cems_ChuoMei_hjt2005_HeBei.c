@@ -520,7 +520,7 @@ int protocol_CEMS_ChuoMei_hjt2005_HeBei_SO2(struct acquisition_data *acq_data)
 
 		ret=get_val_for_ChuoMei_hjt2005_HeBei_pack(p, polcode, "CailOrigin", &valf, 0);
 		if(ret==0)
-			acqdata_set_value_flag(acq_data,"i13010",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+			acqdata_set_value_flag(acq_data,"i13029",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		ret=get_val_for_ChuoMei_hjt2005_HeBei_pack(p, polcode, "RealOrigin", &valf, 0);
 		if(ret==0)
@@ -614,7 +614,7 @@ int protocol_CEMS_ChuoMei_hjt2005_HeBei_NOx(struct acquisition_data *acq_data)
 
 		ret=get_val_for_ChuoMei_hjt2005_HeBei_pack(p, polcode, "CailOrigin", &valf, 0);
 		if(ret==0)
-			acqdata_set_value_flag(acq_data,"i13010",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+			acqdata_set_value_flag(acq_data,"i13029",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		ret=get_val_for_ChuoMei_hjt2005_HeBei_pack(p, polcode, "RealOrigin", &valf, 0);
 		if(ret==0)
@@ -705,7 +705,7 @@ int protocol_CEMS_ChuoMei_hjt2005_HeBei_O2(struct acquisition_data *acq_data)
 
 		ret=get_val_for_ChuoMei_hjt2005_HeBei_pack(p, polcode, "CailOrigin", &valf, 0);
 		if(ret==0)
-			acqdata_set_value_flag(acq_data,"i13010",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+			acqdata_set_value_flag(acq_data,"i13029",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		ret=get_val_for_ChuoMei_hjt2005_HeBei_pack(p, polcode, "RealOrigin", &valf, 0);
 		if(ret==0)
