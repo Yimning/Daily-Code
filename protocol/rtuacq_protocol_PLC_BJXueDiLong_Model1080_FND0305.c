@@ -110,7 +110,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 
 		no = getFloatValue(p, 33, dataType);
 		
-		o2 = getFloatValue(p, 37, dataType);
+ 		o2 = getFloatValue(p, 37, dataType);
 		
 		co = getFloatValue(p, 41, dataType);
 		
