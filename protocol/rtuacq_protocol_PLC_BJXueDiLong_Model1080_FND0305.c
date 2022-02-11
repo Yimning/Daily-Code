@@ -88,7 +88,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 		
 		val = getInt16Value(p, 5, INT_AB);
 		valf[1]=PLCtoValue(modbusarg, 5530, 27648, val, "a34013");
-		
+		 
 		val = getInt16Value(p, 7, INT_AB);
 		valf[2]=PLCtoValue(modbusarg, 5530, 27648, val, "a01017");
  
