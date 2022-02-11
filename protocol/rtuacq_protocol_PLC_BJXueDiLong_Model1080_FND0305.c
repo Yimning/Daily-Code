@@ -122,7 +122,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 		
 		status=0;
 		
-	}
+	}  
 	else
 	{
 		valf[0]=0;
