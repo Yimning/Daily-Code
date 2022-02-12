@@ -119,7 +119,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 		co2 = getFloatValue(p, 51, dataType);
 		
 		nox=NO_and_NO2_to_NOx(no, no2);
-		
+ 
 		status=0;
 		
 	}  
@@ -146,7 +146,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 	acqdata_set_value(acq_data,"a01017",UNIT_PA,valf[1],&arg_n);
 	acqdata_set_value(acq_data,"a00000",UNIT_M3_S,0,&arg_n);
 	acqdata_set_value(acq_data,"a00000z",UNIT_M3_S,0,&arg_n);
-
+ 
 
 	if(isPolcodeEnable(modbusarg, "a34013"))
 	{
