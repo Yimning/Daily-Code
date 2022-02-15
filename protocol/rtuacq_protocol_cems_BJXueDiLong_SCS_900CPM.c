@@ -88,7 +88,7 @@ int protocol_CEMS_BJXueDiLong_SCS900CPM(struct acquisition_data *acq_data)
 		smoke=valf;
 		status=0;
 	}
-	else
+	else  
 	{
 		smoke=0;
 		status=1;
