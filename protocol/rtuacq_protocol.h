@@ -1098,6 +1098,7 @@ int protocol_CEMS_YaoJiBoLi(struct acquisition_data *acq_data);
 int protocol_CEMS_BJHangTianYiLai_HeiBei(struct acquisition_data *acq_data);
 int protocol_PLC_BJHangTianYiLai_HeiBei(struct acquisition_data *acq_data);
 int protocol_CEMS_HBManDeKe_NO_V4(struct acquisition_data *acq_data);
+int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data);
 
 int protocol_CEMS_SaiMoFei_42i_HI_100(struct acquisition_data *acq_data);
 int protocol_CEMS_SaiMoFei_42i_LO_100(struct acquisition_data *acq_data);
@@ -1121,7 +1122,6 @@ int protocol_TSP_SDXinZe_SDUST100(struct acquisition_data *acq_data);
 int protocol_CEMS_SDXinZe_V2(struct acquisition_data *acq_data);
 int protocol_PLC_HongRuiDe(struct acquisition_data *acq_data);
 int protocol_CEMS_RuiAnRA8000(struct acquisition_data *acq_data);
-int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data);
 int protocol_TSP_AnRomhXin_LSS2004_LSS2014(struct acquisition_data *acq_data);
 int protocol_O2_AnRongXin_ARX5100(struct acquisition_data *acq_data);
 int protocol_PLC_AnRomhXin_APT2000(struct acquisition_data *acq_data);
@@ -1398,6 +1398,8 @@ int protocol_mark_GongKuang_LaJi_fire_HBManDeKe(struct acquisition_data *acq_dat
 
 int protocol_GongKuang_ChangRun(struct acquisition_data *acq_data);
 int protocol_GongKuang_ShouQinLongHui(struct acquisition_data *acq_data);
+
+int protocol_DCS_DaMingKanHeng(struct acquisition_data *acq_data);
 
 int protocol_hjt2017_GongKuang_Steel(struct acquisition_data *acq_data);
 int protocol_hjt2017_GongKuang_FirePower(struct acquisition_data *acq_data);
@@ -2140,6 +2142,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8134,protocol_CEMS_RuiAnRA8000},
 	{8135,protocol_CEMS_BJXueDiLong_MODEL4000_1},
 	{8136,protocol_CEMS_HBManDeKe_NO_V4},
+
 	{8156,protocol_PLC_BJXueDiLong_Model1080_FND0305},
 	{8157,protocol_TSP_AnRomhXin_LSS2004_LSS2014},
 	{8158,protocol_O2_AnRongXin_ARX5100},
@@ -2184,8 +2187,11 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{8215,protocol_CEMS_FSLuTangWenDu_TaiLiDa},
 	{8216,protocol_CEMS_GuangHuanTouDCS_TaiLiDa},
 	{8217,protocol_NH3_LG1100},
-  
+
 	{8251,protocol_CEMS_furnace_temperature},
+
+	{8300,protocol_DCS_DaMingKanHeng},
+	
 	//yuiki test
 	{8407,protocol_test_yuiki},
 
