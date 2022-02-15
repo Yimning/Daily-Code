@@ -187,17 +187,18 @@ int protocol_TSP_NJBoRui_MD6000_B_info(struct acquisition_data *acq_data)
 		}
 		else*/
 		{
-			val = p[4];
+			//val = p[4];
+			val = getInt16Value(p, 3, INT_AB);
 
 			if(val == 0){
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				NJBoRui_MD6000_B_flag='N';
 			}
 			else if((val & 0x100) == 0x100)
 			{
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				NJBoRui_MD6000_B_flag='N';
@@ -215,6 +216,12 @@ int protocol_TSP_NJBoRui_MD6000_B_info(struct acquisition_data *acq_data)
 				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,1,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,99,INFOR_STATUS,&arg_n);
 				NJBoRui_MD6000_B_flag='D';
+			}else
+			{
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				NJBoRui_MD6000_B_flag='N';
 			}
 		}
 		
