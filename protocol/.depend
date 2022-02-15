@@ -2956,33 +2956,6 @@ rtuacq_protocol_cems_AHWanYi_HeBei.o .depend : \
  /opt/rtu_t36z1/src/rtu/include/commonstinfo.h \
  /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
  /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h
-rtuacq_protocol_cems_AHWanYi_HeBei_New.o .depend : \
- rtuacq_protocol_cems_AHWanYi_HeBei_New.c \
- /opt/rtu_t36z1/src/rtu/include/common.h \
- /opt/rtu_t36z1/src/rtu/../cli/command.h \
- /opt/rtu_t36z1/src/rtu/../cli/vector.h \
- /opt/rtu_t36z1/src/rtu/../cli/vty.h \
- /opt/rtu_t36z1/src/rtu/../cli/zebra.h \
- /opt/rtu_t36z1/src/rtu/../cli/module.h \
- /opt/rtu_t36z1/src/rtu/../cli/command.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/include/common.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/include/config.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/include/control.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_eth.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_rtc.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_ai.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_di.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_do.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_ops_api.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_mcu.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_api.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_network.h \
- /opt/rtu_t36z1/src/rtu/include/instruments.h \
- /opt/rtu_t36z1/src/rtu/include/commonstinfo.h \
- /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
- /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h
 rtuacq_protocol_cems_AHWanYi_SG1000_HeBei.o .depend : \
  rtuacq_protocol_cems_AHWanYi_SG1000_HeBei.c \
  /opt/rtu_t36z1/src/rtu/include/common.h \
@@ -9245,6 +9218,32 @@ rtuacq_protocol_Cu_SongXiaSYi.o .depend : rtuacq_protocol_Cu_SongXiaSYi.c \
  /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
  /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h
 rtuacq_protocol_Cu_SZZhongXing.o .depend : rtuacq_protocol_Cu_SZZhongXing.c \
+ /opt/rtu_t36z1/src/rtu/include/common.h \
+ /opt/rtu_t36z1/src/rtu/../cli/command.h \
+ /opt/rtu_t36z1/src/rtu/../cli/vector.h \
+ /opt/rtu_t36z1/src/rtu/../cli/vty.h \
+ /opt/rtu_t36z1/src/rtu/../cli/zebra.h \
+ /opt/rtu_t36z1/src/rtu/../cli/module.h \
+ /opt/rtu_t36z1/src/rtu/../cli/command.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/include/common.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/include/config.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/include/control.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_eth.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_rtc.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_ai.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_di.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_do.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_ops_api.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_mcu.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_api.h \
+ /opt/rtu_t36z1/src/rtu/include/../../devices/dev_network.h \
+ /opt/rtu_t36z1/src/rtu/include/instruments.h \
+ /opt/rtu_t36z1/src/rtu/include/commonstinfo.h \
+ /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
+ /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h
+rtuacq_protocol_dcs_DaMingKanHeng.o .depend : rtuacq_protocol_dcs_DaMingKanHeng.c \
  /opt/rtu_t36z1/src/rtu/include/common.h \
  /opt/rtu_t36z1/src/rtu/../cli/command.h \
  /opt/rtu_t36z1/src/rtu/../cli/vector.h \
@@ -16175,33 +16174,6 @@ rtuacq_protocol_ph_SHLuoBo.o .depend : rtuacq_protocol_ph_SHLuoBo.c \
  /opt/rtu_t36z1/src/rtu/include/commonstinfo.h \
  /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
  /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h
-rtuacq_protocol_ph_SHPuSheng.o .depend : rtuacq_protocol_ph_SHPuSheng.c \
- /opt/rtu_t36z1/src/rtu/include/common.h \
- /opt/rtu_t36z1/src/rtu/../cli/command.h \
- /opt/rtu_t36z1/src/rtu/../cli/vector.h \
- /opt/rtu_t36z1/src/rtu/../cli/vty.h \
- /opt/rtu_t36z1/src/rtu/../cli/zebra.h \
- /opt/rtu_t36z1/src/rtu/../cli/module.h \
- /opt/rtu_t36z1/src/rtu/../cli/command.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/include/common.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/include/config.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/include/control.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_eth.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_rtc.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_ai.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_di.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_do.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_ops_api.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_mcu.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_serial.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/devices_mng_api.h \
- /opt/rtu_t36z1/src/rtu/include/../../devices/dev_network.h \
- /opt/rtu_t36z1/src/rtu/include/instruments.h \
- /opt/rtu_t36z1/src/rtu/include/commonstinfo.h \
- /opt/rtu_t36z1/src/rtu/rtuacquisition.h rtuacq_protocol.h \
- /opt/rtu_t36z1/src/rtu/storage/rtu_log_common.h \
- rtuacq_protocol_error_cache.h
 rtuacq_protocol_ph_SinPh80.o .depend : rtuacq_protocol_ph_SinPh80.c \
  /opt/rtu_t36z1/src/rtu/include/common.h \
  /opt/rtu_t36z1/src/rtu/../cli/command.h \
