@@ -88,10 +88,10 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 		
 		val = getInt16Value(p, 5, INT_AB);
 		valf[1]=PLCtoValue(modbusarg, 5530, 27648, val, "a34013");
-		 
+		
 		val = getInt16Value(p, 7, INT_AB);
 		valf[2]=PLCtoValue(modbusarg, 5530, 27648, val, "a01017");
- 
+
 		val = getInt16Value(p, 9, INT_AB);
 		valf[3]=PLCtoValue(modbusarg, 5530, 27648, val, "a01012");
 
@@ -104,13 +104,13 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 			speed=0;
 #endif
 		speed=PTC*sqrt(fabs(valf[2])*2/SAD);
-  
-       		
+
+		
 		so2 = getFloatValue(p, 29, dataType);
 
 		no = getFloatValue(p, 33, dataType);
 		
- 		o2 = getFloatValue(p, 37, dataType);
+		o2 = getFloatValue(p, 37, dataType);
 		
 		co = getFloatValue(p, 41, dataType);
 		
@@ -119,10 +119,10 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 		co2 = getFloatValue(p, 51, dataType);
 		
 		nox=NO_and_NO2_to_NOx(no, no2);
- 
+		
 		status=0;
 		
-	}  
+	}
 	else
 	{
 		valf[0]=0;
@@ -146,14 +146,14 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 	acqdata_set_value(acq_data,"a01017",UNIT_PA,valf[1],&arg_n);
 	acqdata_set_value(acq_data,"a00000",UNIT_M3_S,0,&arg_n);
 	acqdata_set_value(acq_data,"a00000z",UNIT_M3_S,0,&arg_n);
- 
+
 
 	if(isPolcodeEnable(modbusarg, "a34013"))
 	{
 		acqdata_set_value(acq_data,"a34013a",UNIT_MG_M3,valf[1],&arg_n);
 		acqdata_set_value(acq_data,"a34013",UNIT_MG_M3,valf[1],&arg_n);
 		acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,0,&arg_n);
-	}  
+	}
 
 	acqdata_set_value(acq_data,"a19001a",UNIT_PECENT,o2,&arg_n);
 	acqdata_set_value(acq_data,"a19001",UNIT_PECENT,o2,&arg_n);
@@ -165,7 +165,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 	acqdata_set_value(acq_data,"a21002a",UNIT_MG_M3,nox,&arg_n);
 	acqdata_set_value(acq_data,"a21002",UNIT_MG_M3,nox,&arg_n);
 	acqdata_set_value(acq_data,"a21002z",UNIT_MG_M3,0,&arg_n);
-   
+
 	acqdata_set_value(acq_data,"a21003a",UNIT_MG_M3,no,&arg_n);
 	acqdata_set_value(acq_data,"a21003",UNIT_MG_M3,no,&arg_n);
 	acqdata_set_value(acq_data,"a21003z",UNIT_MG_M3,0,&arg_n);

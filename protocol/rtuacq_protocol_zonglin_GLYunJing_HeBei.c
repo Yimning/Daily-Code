@@ -131,7 +131,7 @@ static float  ZONGLIN_GLYunJing_HeBei_Stay = 0;
 
 	polcode=&(modbusarg->polcode_arg[0].polcode);
 	if(polcode==NULL) return -2;
- 
+
 	devaddr=modbusarg->devaddr&0xffff;
 	cmd=0x03;
 	cnt=0x06;

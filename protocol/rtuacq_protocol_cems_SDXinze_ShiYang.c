@@ -82,7 +82,7 @@ int protocol_CEMS_SDXinZe_ShiYang(struct acquisition_data *acq_data)
 		flue_gas_humidity = getFloatValue(p, 3, dataType);
 
 		flue_gas_humidity=gas_ppm_to_pecent(flue_gas_humidity);
-		  
+		
 		status=0;
 	}
 	else

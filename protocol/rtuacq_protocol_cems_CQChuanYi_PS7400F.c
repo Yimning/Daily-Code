@@ -168,6 +168,7 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_SO2_info(struct acquisition_data *acq
 	int devaddr=0;
 	union uf f;
 	float SO2_zero=0,SO2_range=0,SO2_K=0,SO2_PPB=0,SO2_zero_drift=0,SO2_range_drift=0,SO2_intercept=0;
+	int year=0,mon=0,day=0,hour=0,min=0,sec=0;
 
 	struct tm timer;
 	time_t t1,t2,t3;
@@ -346,29 +347,25 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_SO2_info(struct acquisition_data *acq
 	SYSLOG_DBG("CQChuanYiModBus PS7400-F SO2 protocol,INFO4 : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("CQChuanYiModBus PS7400-F SO2 data4",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"CQChuanYiModBus PS7400-F SO2 INFO4 RECV4:",com_rbuf,size);
-	if((size>=199)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
+	if((size>=197)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
 	{
-		timer.tm_year=BCD(com_rbuf[3])+100;
-		timer.tm_mon=BCD(com_rbuf[4])-1;
-		timer.tm_mday=BCD(com_rbuf[5]);
-		timer.tm_hour=BCD(com_rbuf[6]);
-		timer.tm_min=BCD(com_rbuf[7]);
-		timer.tm_sec=BCD(com_rbuf[8]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		
+		year=getUInt16Value(com_rbuf, 3, INT_AB);
+		mon=getUInt16Value(com_rbuf, 5, INT_AB);
+		day=getUInt16Value(com_rbuf, 7, INT_AB);
+		hour=getUInt16Value(com_rbuf, 9, INT_AB);
+		min=getUInt16Value(com_rbuf, 11, INT_AB);
+		sec=getUInt16Value(com_rbuf, 13, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
 		//This part has writen the SO2_zero_drift_time 
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
-
-		timer.tm_year=BCD(com_rbuf[99])+100;
-		timer.tm_mon=BCD(com_rbuf[100])-1;
-		timer.tm_mday=BCD(com_rbuf[101]);
-		timer.tm_hour=BCD(com_rbuf[102]);
-		timer.tm_min=BCD(com_rbuf[103]);
-		timer.tm_sec=BCD(com_rbuf[104]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
 		
+		year=getUInt16Value(com_rbuf, 99, INT_AB);
+		mon=getUInt16Value(com_rbuf, 101, INT_AB);
+		day=getUInt16Value(com_rbuf, 103, INT_AB);
+		hour=getUInt16Value(com_rbuf, 105, INT_AB);
+		min=getUInt16Value(com_rbuf, 107, INT_AB);
+		sec=getUInt16Value(com_rbuf, 109, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
 		//This part has writen the SO2_range_drift_time 
 		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 		status=0;
@@ -397,6 +394,7 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_NOx_info(struct acquisition_data *acq
 	int devaddr=0;
 	union uf f;
 	float NOx_zero=0,NOx_range=0,NOx_K=0,NOx_PPB=0,NOx_zero_drift=0,NOx_range_drift=0,NOx_intercept=0;
+	int year=0,mon=0,day=0,hour=0,min=0,sec=0;
 
 	struct tm timer;
 	time_t t1,t2,t3;
@@ -541,29 +539,25 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_NOx_info(struct acquisition_data *acq
 	SYSLOG_DBG("CQChuanYiModBus PS7400-F NOx protocol,INFO4 : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("CQChuanYiModBus PS7400-F NOx data4",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"CQChuanYiModBus PS7400-F NOx INFO4 RECV4:",com_rbuf,size);
-	if((size>=199)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
+	if((size>=197)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
 	{
-		timer.tm_year=BCD(com_rbuf[9])+100;
-		timer.tm_mon=BCD(com_rbuf[10])-1;
-		timer.tm_mday=BCD(com_rbuf[11]);
-		timer.tm_hour=BCD(com_rbuf[12]);
-		timer.tm_min=BCD(com_rbuf[13]);
-		timer.tm_sec=BCD(com_rbuf[14]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		
+		year=getUInt16Value(com_rbuf, 15, INT_AB);
+		mon=getUInt16Value(com_rbuf, 17, INT_AB);
+		day=getUInt16Value(com_rbuf, 19, INT_AB);
+		hour=getUInt16Value(com_rbuf, 21, INT_AB);
+		min=getUInt16Value(com_rbuf, 23, INT_AB);
+		sec=getUInt16Value(com_rbuf, 25, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
 		//This part has writen the NOx_zero_drift_time 
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
-		timer.tm_year=BCD(com_rbuf[105])+100;
-		timer.tm_mon=BCD(com_rbuf[106])-1;
-		timer.tm_mday=BCD(com_rbuf[107]);
-		timer.tm_hour=BCD(com_rbuf[108]);
-		timer.tm_min=BCD(com_rbuf[109]);
-		timer.tm_sec=BCD(com_rbuf[110]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		
+		year=getUInt16Value(com_rbuf, 111, INT_AB);
+		mon=getUInt16Value(com_rbuf, 113, INT_AB);
+		day=getUInt16Value(com_rbuf, 115, INT_AB);
+		hour=getUInt16Value(com_rbuf, 117, INT_AB);
+		min=getUInt16Value(com_rbuf, 119, INT_AB);
+		sec=getUInt16Value(com_rbuf, 121, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
 		//This part has writen the NOx_range_drift_time 
 		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 		status=0;
@@ -591,6 +585,7 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_CO_info(struct acquisition_data *acq_
 	int devaddr=0;
 	union uf f;
 	float CO_zero=0,CO_range=0,CO_K=0,CO_PPB=0,CO_zero_drift=0,CO_range_drift=0,CO_intercept=0;
+	int year=0,mon=0,day=0,hour=0,min=0,sec=0;
 
 	struct tm timer;
 	time_t t1,t2,t3;
@@ -735,29 +730,25 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_CO_info(struct acquisition_data *acq_
 	SYSLOG_DBG("CQChuanYiModBus PS7400-F CO protocol,INFO4 : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("CQChuanYiModBus PS7400-F CO data4",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"CQChuanYiModBus PS7400-F CO INFO4 RECV4:",com_rbuf,size);
-	if((size>=199)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
+	if((size>=197)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
 	{
-		timer.tm_year=BCD(com_rbuf[15])+100;
-		timer.tm_mon=BCD(com_rbuf[16])-1;
-		timer.tm_mday=BCD(com_rbuf[17]);
-		timer.tm_hour=BCD(com_rbuf[18]);
-		timer.tm_min=BCD(com_rbuf[19]);
-		timer.tm_sec=BCD(com_rbuf[20]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		
-		//This part describes the CO_zero_drift_time 
+		year=getUInt16Value(com_rbuf, 27, INT_AB);
+		mon=getUInt16Value(com_rbuf, 29, INT_AB);
+		day=getUInt16Value(com_rbuf, 31, INT_AB);
+		hour=getUInt16Value(com_rbuf, 33, INT_AB);
+		min=getUInt16Value(com_rbuf, 35, INT_AB);
+		sec=getUInt16Value(com_rbuf, 37, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
+		//This part has writen the NOx_zero_drift_time 
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
-		timer.tm_year=BCD(com_rbuf[111])+100;
-		timer.tm_mon=BCD(com_rbuf[112])-1;
-		timer.tm_mday=BCD(com_rbuf[113]);
-		timer.tm_hour=BCD(com_rbuf[114]);
-		timer.tm_min=BCD(com_rbuf[115]);
-		timer.tm_sec=BCD(com_rbuf[116]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		
+		year=getUInt16Value(com_rbuf, 123, INT_AB);
+		mon=getUInt16Value(com_rbuf, 125, INT_AB);
+		day=getUInt16Value(com_rbuf, 127, INT_AB);
+		hour=getUInt16Value(com_rbuf, 129, INT_AB);
+		min=getUInt16Value(com_rbuf, 131, INT_AB);
+		sec=getUInt16Value(com_rbuf, 133, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
 		//This part describes the CO_range_drift_time 
 		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 		status=0;
@@ -787,6 +778,7 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_HCL_info(struct acquisition_data *acq
 	int devaddr=0;
 	union uf f;
 	float HCL_zero=0,HCL_range=0,HCL_K=0,HCL_PPB=0,HCL_zero_drift=0,HCL_range_drift=0,HCL_intercept=0;
+	int year=0,mon=0,day=0,hour=0,min=0,sec=0;
 
 	struct tm timer;
 	time_t t1,t2,t3;
@@ -931,29 +923,25 @@ int protocol_CEMS_CQChuanYiModBus_PS7400_F_HCL_info(struct acquisition_data *acq
 	SYSLOG_DBG("CQChuanYiModBus PS7400-F HCL protocol,INFO4 : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("CQChuanYiModBus PS7400-F HCL data4",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"CQChuanYiModBus PS7400-F HCL INFO4 RECV4:",com_rbuf,size);
-	if((size>=199)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
+	if((size>=197)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
 	{
-		timer.tm_year=BCD(com_rbuf[51])+100;
-		timer.tm_mon=BCD(com_rbuf[52])-1;
-		timer.tm_mday=BCD(com_rbuf[53]);
-		timer.tm_hour=BCD(com_rbuf[54]);
-		timer.tm_min=BCD(com_rbuf[55]);
-		timer.tm_sec=BCD(com_rbuf[56]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		
-		//This part describes the HCL_zero_drift_time 
+		year=getUInt16Value(com_rbuf, 51, INT_AB);
+		mon=getUInt16Value(com_rbuf, 53, INT_AB);
+		day=getUInt16Value(com_rbuf, 55, INT_AB);
+		hour=getUInt16Value(com_rbuf, 57, INT_AB);
+		min=getUInt16Value(com_rbuf, 59, INT_AB);
+		sec=getUInt16Value(com_rbuf, 61, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
+		//This part has writen the NOx_zero_drift_time 
 		acqdata_set_value_flag(acq_data,"i13021",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 
-		timer.tm_year=BCD(com_rbuf[147])+100;
-		timer.tm_mon=BCD(com_rbuf[148])-1;
-		timer.tm_mday=BCD(com_rbuf[149]);
-		timer.tm_hour=BCD(com_rbuf[150]);
-		timer.tm_min=BCD(com_rbuf[151]);
-		timer.tm_sec=BCD(com_rbuf[152]);
-		t2=mktime(&timer);
-		t3=(t2>t1)? (t2-t1):t1;
-		
+		year=getUInt16Value(com_rbuf, 147, INT_AB);
+		mon=getUInt16Value(com_rbuf, 149, INT_AB);
+		day=getUInt16Value(com_rbuf, 151, INT_AB);
+		hour=getUInt16Value(com_rbuf, 153, INT_AB);
+		min=getUInt16Value(com_rbuf, 155, INT_AB);
+		sec=getUInt16Value(com_rbuf, 157, INT_AB);
+		t3=getTimeValue(year, mon, day, hour, min, sec);
 		//This part describes the HCL_range_drift_time 
 		acqdata_set_value_flag(acq_data,"i13027",t3,0.0,INFOR_ARGUMENTS,&arg_n);
 		status=0;

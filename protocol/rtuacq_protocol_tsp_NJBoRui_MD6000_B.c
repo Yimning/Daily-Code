@@ -105,6 +105,7 @@ int protocol_TSP_NJBoRui_MD6000_B(struct acquisition_data *acq_data)
 	{
 		status=1;
 	}
+	
 	acqdata_set_value(acq_data,"a34013a",UNIT_MG_M3,valf,&arg_n);
 	acqdata_set_value(acq_data,"a34013",UNIT_MG_M3,valf,&arg_n);
 	acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,valf,&arg_n);
@@ -203,14 +204,14 @@ int protocol_TSP_NJBoRui_MD6000_B_info(struct acquisition_data *acq_data)
 				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				NJBoRui_MD6000_B_flag='N';
 			}
-			else if((val & 0x400) == 0x400)
+			else if((val & 0x40) == 0x40)
 			{
 				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,3,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				NJBoRui_MD6000_B_flag='C';
 			}
-			else if((val & 0x40) == 0x40)
+			else if((val & 0x400) == 0x400)
 			{
 				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,1,INFOR_STATUS,&arg_n);
@@ -218,7 +219,7 @@ int protocol_TSP_NJBoRui_MD6000_B_info(struct acquisition_data *acq_data)
 				NJBoRui_MD6000_B_flag='D';
 			}else
 			{
-				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,1,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
 				NJBoRui_MD6000_B_flag='N';
