@@ -33,6 +33,8 @@ DataType and Analysis:
 	(FLOAT_CDAB)  00 00  42 48   = 50.00
 */
 
+
+static char NJBoRui_MD6000_flag;
 int protocol_TSP_NJBoRui_MD6000(struct acquisition_data *acq_data)
 {
 #define POLCODE_NUM 1
@@ -103,7 +105,10 @@ int protocol_TSP_NJBoRui_MD6000(struct acquisition_data *acq_data)
 	acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,0,&arg_n);
 	
 	if(status == 0)
+	{
+		acq_data->dev_stat = NJBoRui_MD6000_flag;
 		acq_data->acq_status = ACQ_OK;
+	}
 	else 
 		acq_data->acq_status = ACQ_ERR;
 	NEED_ERROR_CACHE(acq_data, 10);
@@ -149,7 +154,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	t1=0;//1577808000; // 2020-01-01 00:00:00
 	acqdata_set_value_flag(acq_data,"a34013",UNIT_MG_M3,valf,INFOR_ARGUMENTS,&arg_n);
 	status=1;
-	cmd = 0x04;
+	cmd = 0x03;
 	regpos = 0x801;
 	regcnt = 0x01;
 	dataType = FLOAT_CDAB ;
@@ -167,27 +172,43 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
-  		val = p[4];
+			val = getInt16Value(p, 3, INT_AB);
 
-		if(val == 0){
-			acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
-			acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
-		}
-		else if((val & 0x100) == 0x100)
-		{
-			acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);
-		}
-		else if((val & 0x400) == 0x400)
-		{
-			acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,3,INFOR_STATUS,&arg_n);
-		}
-		else if((val & 0x40) == 0x40)
-		{
-			acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);
-			acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,1,INFOR_STATUS,&arg_n);
-		}
-
+			if(val == 0){
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				NJBoRui_MD6000_flag='N';
+			}
+			else if((val & 0x100) == 0x100)
+			{
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				NJBoRui_MD6000_flag='N';
+			}
+			else if((val & 0x40) == 0x40)
+			{
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,3,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				NJBoRui_MD6000_flag='C';
+			}
+			else if((val & 0x400) == 0x400)
+			{
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,1,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,99,INFOR_STATUS,&arg_n);
+				NJBoRui_MD6000_flag='D';
+			}else
+			{
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,1,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12005",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				acqdata_set_value_flag(acq_data,"i12006",UNIT_NONE,0,INFOR_STATUS,&arg_n);
+				NJBoRui_MD6000_flag='N';
+			}
 		status=0;
+		
 	}
 	else
 	{
@@ -221,7 +242,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 	sleep(1);
@@ -244,14 +265,14 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
-		val=getInt16Value(p, 3, INT_AB);
+		valf = getFloatValue(p, 3, dataType);
 		acqdata_set_value_flag(acq_data,"i13022",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		status=0;
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 	sleep(1);
@@ -274,14 +295,14 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
-		val=getInt16Value(p, 3, INT_AB);
+		valf = getFloatValue(p, 3, dataType);
 		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
 
 		status=0;
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 
@@ -314,7 +335,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 	
 
@@ -347,7 +368,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 
@@ -378,7 +399,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 
@@ -409,7 +430,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 	
 	sleep(1);
@@ -439,7 +460,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 	sleep(1);
@@ -470,7 +491,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 	sleep(1);
@@ -501,7 +522,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		status = 1;
+		//status = 1;
 	}
 
 	
