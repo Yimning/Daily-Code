@@ -242,7 +242,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 	sleep(1);
@@ -272,7 +272,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 	sleep(1);
@@ -302,7 +302,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 
@@ -335,7 +335,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 	
 
@@ -368,7 +368,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 
@@ -399,7 +399,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 
@@ -430,7 +430,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 	
 	sleep(1);
@@ -460,7 +460,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 	sleep(1);
@@ -491,7 +491,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 	sleep(1);
@@ -522,7 +522,7 @@ int protocol_TSP_NJBoRui_MD6000_info(struct acquisition_data *acq_data)
 	}
 	else
 	{
-		//status = 1;
+		status = 1;
 	}
 
 	

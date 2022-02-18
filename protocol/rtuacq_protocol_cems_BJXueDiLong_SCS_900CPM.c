@@ -209,13 +209,16 @@ int protocol_CEMS_BJXueDiLong_SCS900CPM_info(struct acquisition_data *acq_data)
         		case 64:
 				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,1,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='M';
 				break;
+        		case 96:
+				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,6,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='C';
+				break;
         		case 128:
 				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,2,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='D';
 				break;
         		default:
 				acqdata_set_value_flag(acq_data,"i12004",UNIT_NONE,99,INFOR_STATUS,&arg_n);BJXueDiLong_SCS900CPM_Mark='N';
 				break;
-		}
+		}     
 		status=0;
 	}
 

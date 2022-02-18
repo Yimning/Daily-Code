@@ -411,8 +411,39 @@ int protocol_TSP_NJBoRui_MD6000_B_info(struct acquisition_data *acq_data)
 		status = 1;
 	}
 
+/*
 	cmd = 0x03;
-	regpos = 0x900;
+	regpos = 0x55;
+	regcnt = 0x02;
+	dataType = FLOAT_CDAB ;
+	t1 = 0 ;
+	sleep(1);
+	memset(com_tbuf,0,sizeof(com_tbuf));
+	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"NJBoRui MD6000-B TSP INFO SEND11:",com_tbuf,size);
+	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
+	sleep(1);
+	memset(com_rbuf,0,sizeof(com_rbuf));
+	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
+	SYSLOG_DBG("NJBoRui MD6000-B TSP protocol,INFO 11: read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("NJBoRui MD6000-B TSP data11",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"NJBoRui MD6000-B TSP INFO RECV11:",com_rbuf,size);
+	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
+	if(p!=NULL)
+	{
+		valf = getFloatValue(p, 3, dataType);
+		acqdata_set_value_flag(acq_data,"i13026",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+
+		status=0;
+	}
+	else
+	{
+		status = 1;
+	}
+*/
+
+	cmd = 0x03;
+	regpos = 0x5F;
 	regcnt = 0x04;
 	dataType = FLOAT_CDAB ;
 	t1 = 0 ;
@@ -427,6 +458,100 @@ int protocol_TSP_NJBoRui_MD6000_B_info(struct acquisition_data *acq_data)
 	SYSLOG_DBG("NJBoRui MD6000-B TSP protocol,INFO 7: read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("NJBoRui MD6000-B TSP data7",com_rbuf,size);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"NJBoRui MD6000-B TSP INFO RECV7:",com_rbuf,size);
+	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
+	if(p!=NULL)
+	{
+		val = getInt16Value(p, 3, INT_AB);
+		t1 = getTimeValue(val, BCD(p[5]), BCD(p[6]), BCD(p[7]), BCD(p[8]), BCD(p[9]));
+		
+		acqdata_set_value_flag(acq_data,"i13021",t1,0.0,INFOR_ARGUMENTS,&arg_n);
+
+		status=0;
+	}
+	else
+	{
+		status = 1;
+	}
+
+
+	cmd = 0x03;
+	regpos = 0x69;
+	regcnt = 0x04;
+	dataType = FLOAT_CDAB ;
+	t1 = 0 ;
+	sleep(1);
+	memset(com_tbuf,0,sizeof(com_tbuf));
+	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"NJBoRui MD6000-B TSP INFO SEND8:",com_tbuf,size);
+	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
+	sleep(1);
+	memset(com_rbuf,0,sizeof(com_rbuf));
+	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
+	SYSLOG_DBG("NJBoRui MD6000-B TSP protocol,INFO 8: read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("NJBoRui MD6000-B TSP data8",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"NJBoRui MD6000-B TSP INFO RECV8:",com_rbuf,size);
+	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
+	if(p!=NULL)
+	{
+		val = getInt16Value(p, 3, INT_AB);
+		t1 = getTimeValue(val, BCD(p[5]), BCD(p[6]), BCD(p[7]), BCD(p[8]), BCD(p[9]));
+		
+		acqdata_set_value_flag(acq_data,"i13027",t1,0.0,INFOR_ARGUMENTS,&arg_n);
+
+		status=0;
+	}
+	else
+	{
+		status = 1;
+	}
+
+
+	cmd = 0x03;
+	regpos = 0x6E;
+	regcnt = 0x02;
+	dataType = FLOAT_CDAB ;
+	t1 = 0 ;
+	sleep(1);
+	memset(com_tbuf,0,sizeof(com_tbuf));
+	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"NJBoRui MD6000-B TSP INFO 9:",com_tbuf,size);
+	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
+	sleep(1);
+	memset(com_rbuf,0,sizeof(com_rbuf));
+	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
+	SYSLOG_DBG("NJBoRui MD6000-B TSP protocol,INFO 9: read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("NJBoRui MD6000-B TSP data9",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"NJBoRui MD6000-B TSP INFO RECV9:",com_rbuf,size);
+	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
+	if(p!=NULL)
+	{
+		valf = getFloatValue(p, 3, dataType);
+		acqdata_set_value_flag(acq_data,"i13012",UNIT_NONE,valf,INFOR_ARGUMENTS,&arg_n);
+
+		status=0;
+	}
+	else
+	{
+		status = 1;
+	}
+	
+
+	cmd = 0x03;
+	regpos = 0x900;
+	regcnt = 0x04;
+	dataType = FLOAT_CDAB ;
+	t1 = 0 ;
+	sleep(1);
+	memset(com_tbuf,0,sizeof(com_tbuf));
+	size=modbus_pack(com_tbuf,devaddr,cmd,regpos,regcnt);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"NJBoRui MD6000-B TSP INFO SEND10:",com_tbuf,size);
+	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
+	sleep(1);
+	memset(com_rbuf,0,sizeof(com_rbuf));
+	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
+	SYSLOG_DBG("NJBoRui MD6000-B TSP protocol,INFO 10: read device %s , size=%d\n",DEV_NAME(acq_data),size);
+	SYSLOG_DBG_HEX("NJBoRui MD6000-B TSP data10",com_rbuf,size);
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"NJBoRui MD6000-B TSP INFO RECV10:",com_rbuf,size);
 	p = modbus_crc_check(com_rbuf,size, devaddr, cmd, regcnt);
 	if(p!=NULL)
 	{
