@@ -97,15 +97,16 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 
 		val = getInt16Value(p, 11, INT_AB);
 		valf[4]=PLCtoValue(modbusarg, 5530, 27648, val, "a01013");
-#if 0
+
 		if(PTC>0 && (valf[3]+273)>0 && (valf[4]+atm_press)>0)
 			speed=PTC*valf[2]*sqrt(((valf[3]+273)/273)*(101325/(valf[4]+atm_press))*(2/1.2928));
 		else
 			speed=0;
-#endif
-		speed=PTC*sqrt(fabs(valf[2])*2/SAD);
-
 		
+#if 0
+		speed=PTC*sqrt(fabs(valf[2])*2/SAD);
+#endif		
+
 		so2 = getFloatValue(p, 29, dataType);
 
 		no = getFloatValue(p, 33, dataType);
@@ -143,7 +144,7 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 	acqdata_set_value(acq_data,"a01012",UNIT_0C,valf[3],&arg_n);
 	acqdata_set_value(acq_data,"a01013",UNIT_PA,valf[4],&arg_n);
 	acqdata_set_value(acq_data,"a01014",UNIT_PECENT,valf[0],&arg_n);
-	acqdata_set_value(acq_data,"a01017",UNIT_PA,valf[1],&arg_n);
+	acqdata_set_value(acq_data,"a01017",UNIT_PA,valf[2],&arg_n);
 	acqdata_set_value(acq_data,"a00000",UNIT_M3_S,0,&arg_n);
 	acqdata_set_value(acq_data,"a00000z",UNIT_M3_S,0,&arg_n);
 
@@ -225,11 +226,6 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 			flag='D';
 		status = 0;
 	}
-	else
-	{
-		//status = 1;
-		flag='V';
-	}
 
 	if(status == 0)
 	{
@@ -239,5 +235,6 @@ int protocol_PLC_BJXueDiLong_Model1080_FND0305(struct acquisition_data *acq_data
 	else 
 		acq_data->acq_status = ACQ_ERR;
 
+ 	NEED_ERROR_CACHE(acq_data, 10);
 	return arg_n;
 }

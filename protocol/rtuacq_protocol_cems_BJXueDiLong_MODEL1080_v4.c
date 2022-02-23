@@ -380,7 +380,7 @@ int protocol_CEMS_BJXueDiLong_MODEL1080_v4_SO2_info(struct acquisition_data *acq
 		pos=get_BJXueDiLong_MODEL1080_v4_pos(modbusarg, p, polId, groups, 4);
 		
 		valf=getUInt16Value(p, pos+12, dataType)*point;
-		range=(p[pos+15]==2) ? gas_ppm_to_mg_m3(valf,mr) : valf;
+		range=(p[pos+14]==0x02) ? gas_ppm_to_mg_m3(valf,mr) : valf;
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,range,INFOR_ARGUMENTS,&arg_n);
 
 		val=getUInt16Value(p, pos, dataType);
@@ -501,7 +501,7 @@ int protocol_CEMS_BJXueDiLong_MODEL1080_v4_NO_info(struct acquisition_data *acq_
 		pos=get_BJXueDiLong_MODEL1080_v4_pos(modbusarg, p, polId, groups, 4);
 		
 		valf=getUInt16Value(p, pos+12, dataType)*point;
-		range=(p[pos+15]==2) ? gas_ppm_to_mg_m3(valf,mr) : valf;
+		range=(p[pos+14]==0x02) ? gas_ppm_to_mg_m3(valf,mr) : valf;
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,range,INFOR_ARGUMENTS,&arg_n);
 
 		val=getUInt16Value(p, pos, dataType);
@@ -620,7 +620,7 @@ int protocol_CEMS_BJXueDiLong_MODEL1080_v4_O2_info(struct acquisition_data *acq_
 		pos=get_BJXueDiLong_MODEL1080_v4_pos(modbusarg, p, polId, groups, 4);
 		
 		valf=getUInt16Value(p, pos+12, dataType);
-		range=(p[pos+15]==2) ? gas_ppm_to_pecent(valf*point) : valf*0.01;
+		range=(p[pos+14]==0x02) ? gas_ppm_to_pecent(valf*point) : valf*0.01;
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_PECENT,range,INFOR_ARGUMENTS,&arg_n);
 
 		val=getUInt16Value(p, pos, dataType);
@@ -737,11 +737,13 @@ int protocol_CEMS_BJXueDiLong_MODEL1080_v4_CO_info(struct acquisition_data *acq_
 	{
 		point=((p[4]&0x08)==0x08)?0.1:1;
 	
-		pos=get_BJXueDiLong_MODEL1080_v4_pos(modbusarg, p, polId, groups, 4);
+		pos=get_BJXueDiLong_MODEL1080_v4_pos(modbusarg, p, polId, groups, 4); //pos = 81
 		
-		valf=getUInt16Value(p, pos+12, dataType)*point;
-		range=(p[pos+15]==2) ? gas_ppm_to_mg_m3(valf,mr) : valf;
+		valf=getUInt16Value(p, pos+12, dataType)*point; // 93rd byte  
+		range=(p[pos+14]==0x02) ? gas_ppm_to_mg_m3(valf,mr) : valf;
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,range,INFOR_ARGUMENTS,&arg_n);
+
+		SYSLOG_DBG("==>pos=%d,point=%f,range=%f,valf=%f\n",pos,point,range,valf);
 
 		val=getUInt16Value(p, pos, dataType);
 		year=(val>>9)&0x7F;
@@ -860,7 +862,7 @@ int protocol_CEMS_BJXueDiLong_MODEL1080_v4_CO2_info(struct acquisition_data *acq
 		pos=get_BJXueDiLong_MODEL1080_v4_pos(modbusarg, p, polId, groups, 4);
 		
 		valf=getUInt16Value(p, pos+12, dataType)*point;
-		range=(p[pos+15]==2) ? gas_ppm_to_mg_m3(valf,mr) : valf;
+		range=(p[pos+14]==0x02) ? gas_ppm_to_mg_m3(valf,mr) : valf;
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,range,INFOR_ARGUMENTS,&arg_n);
 
 		val=getUInt16Value(p, pos, dataType);
@@ -980,7 +982,7 @@ int protocol_CEMS_BJXueDiLong_MODEL1080_v4_CH4_info(struct acquisition_data *acq
 		pos=get_BJXueDiLong_MODEL1080_v4_pos(modbusarg, p, polId, groups, 4);
 		
 		valf=getUInt16Value(p, pos+12, dataType)*point;
-		range=(p[pos+15]==2) ? gas_ppm_to_mg_m3(valf,mr) : valf;
+		range=(p[pos+14]==0x02) ? gas_ppm_to_mg_m3(valf,mr) : valf;
 		acqdata_set_value_flag(acq_data,"i13013",UNIT_MG_M3,range,INFOR_ARGUMENTS,&arg_n);
 
 		val=getUInt16Value(p, pos, dataType);
