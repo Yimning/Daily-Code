@@ -47,7 +47,7 @@ int protocol_PLC_BJXueDiLong_Smart(struct acquisition_data *acq_data)
 	int val;
 	float valf[6];
 	int ret=0;
-	int arg_n=0;
+	int arg_n=0;    
 	int devaddr=0;
 	int cmd = 0;
 	float speed,atm_press,PTC;
