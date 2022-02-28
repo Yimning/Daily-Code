@@ -227,7 +227,7 @@ int protocol_PLC_SaiMoFei1_not_flag(struct acquisition_data *acq_data)
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"SaiMoFei PLC SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
-	memset(com_rbuf,0,sizeof(com_rbuf));
+	memset(com_rbuf,0,sizeof(com_rbuf)); 
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"SaiMoFei PLC RECV:",com_rbuf,size);
 	if((size>=15)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
