@@ -58,23 +58,28 @@ int protocol_PLC_SaiMoFei_HBDongTai(struct acquisition_data *acq_data)
 	minVal=5530;
 	maxVal=27648;
 	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,devaddr,0x03,0x2A,0x05);
+	size=modbus_pack(com_tbuf,devaddr,0x03,0x2A,0x06);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"SaiMoFei PLC SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
 	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"SaiMoFei PLC RECV:",com_rbuf,size);
-	if((size>=15)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
+	if((size>=17)&&(com_rbuf[0]==devaddr)&&(com_rbuf[1]==0x03))
 	{
 		val=getUInt16Value(com_rbuf, 3, INT_AB);
 		valf[0]=PLCtoValue(modbusarg, minVal, maxVal, val, "a01014");
 
-		//val=getUInt16Value(com_rbuf, 5, INT_AB);
-		//valf[1]=PLCtoValue(modbusarg, minVal, maxVal, val, "a34013");
+		val=getUInt16Value(com_rbuf, 5, INT_AB);
+		if(isPolcodeEnable(modbusarg, "a34013a"))
+			valf[1]=PLCtoValue(modbusarg, minVal, maxVal, val, "a34013a");
+		else
+			valf[1]=PLCtoValue(modbusarg, minVal, maxVal, val, "a34013");
 
 		val=getUInt16Value(com_rbuf, 7, INT_AB);
 		valf[2]=PLCtoValue(modbusarg, minVal, maxVal, val, "a01011");
+		speed = valf[2];
+
 
 		val=getUInt16Value(com_rbuf, 9, INT_AB);
 		valf[3]=PLCtoValue(modbusarg, minVal, maxVal, val, "a01012");
@@ -83,6 +88,12 @@ int protocol_PLC_SaiMoFei_HBDongTai(struct acquisition_data *acq_data)
 		val=getUInt16Value(com_rbuf, 11, INT_AB);
 		valf[4]=PLCtoValue(modbusarg, minVal, maxVal, val, "a01013");
 		//SaiMoFei_PLC_P=valf[4];
+
+		val=getUInt16Value(com_rbuf, 13, INT_AB);
+		if(isPolcodeEnable(modbusarg, "a19001a"))
+			valf[5]=PLCtoValue(modbusarg, minVal, maxVal, val, "a19001a");
+		else
+			valf[5]=PLCtoValue(modbusarg, minVal, maxVal, val, "a19001");
 
 		if(PTC>0 && (valf[3]+273)>0 && (valf[4]+atm_press)>0)
 			speed=PTC*sqrt(valf[2]*((valf[3]+273)/273)*(101325/(valf[4]+atm_press))*(2/1.2928));
@@ -153,12 +164,22 @@ int protocol_PLC_SaiMoFei_HBDongTai(struct acquisition_data *acq_data)
 	acqdata_set_value_flag(acq_data,"a01012",UNIT_0C,valf[3],SaiMoFei_PLC_Flag,&arg_n);
 	acqdata_set_value_flag(acq_data,"a01013",UNIT_PA,valf[4],SaiMoFei_PLC_Flag,&arg_n);
 	acqdata_set_value_flag(acq_data,"a01014",UNIT_PECENT,valf[0],SaiMoFei_PLC_Flag,&arg_n);
-	//acqdata_set_value(acq_data,"a34013a",UNIT_MG_M3,valf[1],&arg_n);
-	//acqdata_set_value(acq_data,"a34013",UNIT_MG_M3,valf[1],&arg_n);
-	//acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,valf[1],&arg_n);
 	acqdata_set_value_flag(acq_data,"a00000",UNIT_M3_S,0,SaiMoFei_PLC_Flag,&arg_n);
 	acqdata_set_value_flag(acq_data,"a00000z",UNIT_M3_S,0,SaiMoFei_PLC_Flag,&arg_n);
 
+	if(isPolcodeEnable(modbusarg, "a34013"))
+	{
+		acqdata_set_value(acq_data,"a34013a",UNIT_MG_M3,valf[1],&arg_n);
+		acqdata_set_value(acq_data,"a34013",UNIT_MG_M3,valf[1],&arg_n);
+		acqdata_set_value(acq_data,"a34013z",UNIT_MG_M3,0,&arg_n);
+	}
+
+	if(isPolcodeEnable(modbusarg, "a19001"))
+	{
+		acqdata_set_value(acq_data,"a19001a",UNIT_MG_M3,valf[5],&arg_n);
+		acqdata_set_value(acq_data,"a19001",UNIT_MG_M3,valf[5],&arg_n);
+	}
+	
 	acqdata_set_value_flag(acq_data,"p10101",UNIT_NONE,mark,flag,&arg_n);
 	
 	acq_data->dev_stat=0xAA;

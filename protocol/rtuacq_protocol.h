@@ -464,6 +464,8 @@ int protocol_FLUX_HBHuaHou(struct acquisition_data *acq_data);
 int protocol_FLUX_TUF2000(struct acquisition_data *acq_data);
 int protocol_FLUX_BuLuKeSi(struct acquisition_data *acq_data);
 int protocol_FLUX_CangZhouTianYi(struct acquisition_data *acq_data);
+int protocol_FLUX_BJFuBangZhiDa_FUF2000(struct acquisition_data *acq_data);
+
 int protocol_FLUX_DLBoKeSi_104M(struct acquisition_data *acq_data);
 int protocol_FLUX_TDS100(struct acquisition_data *acq_data);
 int protocol_FLUX_SHGuangHua(struct acquisition_data *acq_data);
@@ -1507,7 +1509,7 @@ static struct k37_instrument_protocols instrument_protocols[]={
 	{1362,protocol_FLUX_JiuLian_hui},						/*yuiki 20200114*/
 	{1363,protocol_FLUX_BuLuKeSi},
 	{1364,protocol_FLUX_CangZhouTianYi},
-	
+	{1365,protocol_FLUX_BJFuBangZhiDa_FUF2000},
 	{1406,protocol_FLUX_HBKeruida},
 	{1407,protocol_FLUX_HBHuaHou},
 
