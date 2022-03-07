@@ -26,20 +26,20 @@ int protocol_VOCs_ZhuozhengGB2017(struct acquisition_data *acq_data)
    int i=0,j=0;
    int ret=0;
 
-#define CEMSPOL_NUM 18
+#define CEMSPOL_NUM 20
 
    char polcodestr[][20]={"a24087","a05002","a19001","a24088","a25002","a25003",
 						 "a25005","a01011","a01012","a25000","a01013","a00000",
-						 "a00000z","a01014","","a25006","a25008","a25007","a34013"};
+						 "a00000z","a01014","","a25006","a25008","a25007","a34013","a01017","a01016"};
 
    UNIT_DECLARATION unitstr[CEMSPOL_NUM]={UNIT_MG_M3,UNIT_MG_M3,UNIT_PECENT,UNIT_MG_M3,UNIT_MG_M3,UNIT_MG_M3,
 		UNIT_MG_M3,UNIT_M_S,UNIT_0C,UNIT_MG_M3,UNIT_KPA,UNIT_M3_S,
-		UNIT_M3_S,UNIT_PECENT,UNIT_NONE,UNIT_MG_M3,UNIT_MG_M3,UNIT_MG_M3,UNIT_MG_M3};
+		UNIT_M3_S,UNIT_PECENT,UNIT_NONE,UNIT_MG_M3,UNIT_MG_M3,UNIT_MG_M3,UNIT_MG_M3,UNIT_KPA,UNIT_M2};
    
 
 	   char cemspol[][20]={"a24087","a05002","a19001","a24088","a25002","a25003",
 						 "a25005","a01011","a01012","a25000","a01013","a00000",
-						 "a00000z","a01014","","a25006","a25008","a25007","a34013"};
+						 "a00000z","a01014","","a25006","a25008","a25007","a34013","a01017","a01016"};
 
     SYSLOG_DBG("protocol_CEMS_GBhjt2017:size=%d,%s,%s\n",CEMSPOL_NUM,polcodestr[0],cemspol[0]);
 	
