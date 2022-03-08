@@ -26,7 +26,7 @@ int protocol_VOCs_ZhuozhengGB2017(struct acquisition_data *acq_data)
    int i=0,j=0;
    int ret=0;
 
-#define CEMSPOL_NUM 20
+#define CEMSPOL_NUM 21
 
    char polcodestr[][20]={"a24087","a05002","a19001","a24088","a25002","a25003",
 						 "a25005","a01011","a01012","a25000","a01013","a00000",
