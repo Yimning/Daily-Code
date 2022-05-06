@@ -245,7 +245,7 @@ int protocol_CEMS_GBhjt2005_PaMh(struct acquisition_data *acq_data)
 
 	NEED_ERROR_CACHE(acq_data,20);
 
-	return ret;
+	return ret; 
 #endif
 }
 

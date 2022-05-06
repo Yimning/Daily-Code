@@ -32,6 +32,7 @@ int protocol_VOCs_SDHaiHui(struct acquisition_data *acq_data)
 	float val=0;
 	int ret=0;
 	int arg_n=0;
+	char *p=NULL;
 	int i=0;
 	char *polcode[VOC_POLCODE_NUM]={"a24088","a24087","a05002","","",
 									"","","","a01012","a01013",
@@ -46,15 +47,18 @@ int protocol_VOCs_SDHaiHui(struct acquisition_data *acq_data)
 	if(!acq_data) return -1;
 
 	memset(com_tbuf,0,sizeof(com_tbuf));
-	size=modbus_pack(com_tbuf,0x1,0x3,0x00,0x26);
+	size=modbus_pack(com_tbuf,0x01,0x03,0x00,0x28);
+
+	LOG_WRITE_HEX(DEV_NAME(acq_data),0,"SDHaiHui VOCs SEND:",com_tbuf,size);
 	size=write_device(DEV_NAME(acq_data),com_tbuf,size);
 	sleep(1);
-
 	memset(com_rbuf,0,sizeof(com_rbuf));
 	size=read_device(DEV_NAME(acq_data),com_rbuf,sizeof(com_rbuf)-1);
 	SYSLOG_DBG("SDHaiHui VOCs protocol,VOCs : read device %s , size=%d\n",DEV_NAME(acq_data),size);
 	SYSLOG_DBG_HEX("SDHaiHui VOCs data",com_rbuf,size);
-	if((size>=81)&&(com_rbuf[0]==0x01)&&(com_rbuf[1]==0x03))
+	LOG_WRITE_HEX(DEV_NAME(acq_data),1,"SDHaiHui VOCs RECV:",com_rbuf,size);
+	p = modbus_crc_check(com_rbuf,size, 0x01, 0x03, 0x28);
+	if(p!= NULL)
 	{
 		for(i=0;i<VOC_POLCODE_NUM;i++)
 		{
@@ -83,10 +87,11 @@ int protocol_VOCs_SDHaiHui(struct acquisition_data *acq_data)
 	}
 	
 	if(status == 0)
-	acq_data->acq_status = ACQ_OK;
+		acq_data->acq_status = ACQ_OK;
 	else 
-	acq_data->acq_status = ACQ_ERR;
-
+		acq_data->acq_status = ACQ_ERR;
+	
+	NEED_ERROR_CACHE(acq_data,20);
 	return arg_n;
 }
 
